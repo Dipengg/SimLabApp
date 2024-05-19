@@ -4,7 +4,7 @@ class FormPeminjamanPage extends StatefulWidget {
   const FormPeminjamanPage({super.key});
 
   @override
-  _FormPeminjamanPageState createState() => _FormPeminjamanPageState();
+  State<FormPeminjamanPage> createState() => _FormPeminjamanPageState();
 }
 
 class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
@@ -45,7 +45,29 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    // handle form submission
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ValidationDialog(
+                          onConfirm: () {
+                            Navigator.of(context).pop();
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return CustomDialog(
+                                  title: 'Data Terkirim',
+                                  content: 'Data peminjaman anda telah berhasil dikirim.',
+                                  confirmText: 'OK',
+                                  onConfirm: () {
+                                    Navigator.of(context).popUntil((route) => route.isFirst);
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
@@ -137,7 +159,7 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
               decoration: InputDecoration(
                 hintText: selectedDate == null
                     ? 'Masukkan tanggal'
-                    : '${selectedDate!.day}/${selectedDate.month}/${selectedDate.year}',
+                    : '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -152,6 +174,81 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class ValidationDialog extends StatelessWidget {
+  final VoidCallback onConfirm;
+
+  const ValidationDialog({super.key, required this.onConfirm});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      title: Row(
+        children: [
+          Icon(Icons.warning, color: Colors.yellow[700]),
+          const SizedBox(width: 10),
+          const Text('Validasi'),
+        ],
+      ),
+      content: const Text('Apakah anda yakin dengan data yang anda masukkan?'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Tidak', style: TextStyle(color: Colors.grey)),
+        ),
+        ElevatedButton(
+          onPressed: onConfirm,
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+          child: const Text('Yakin'),
+        ),
+      ],
+    );
+  }
+}
+
+class CustomDialog extends StatelessWidget {
+  final String title;
+  final String content;
+  final String confirmText;
+  final VoidCallback onConfirm;
+
+  const CustomDialog({
+    super.key,
+    required this.title,
+    required this.content,
+    required this.confirmText,
+    required this.onConfirm,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      title: Row(
+        children: [
+          const Icon(Icons.info_outline, color: Colors.green),
+          const SizedBox(width: 10),
+          Text(title),
+        ],
+      ),
+      content: Text(content),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: onConfirm,
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+          child: Text(confirmText),
+        ),
+      ],
     );
   }
 }

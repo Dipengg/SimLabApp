@@ -48,8 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
           content: 'Silahkan masukkan data diri anda pada halaman login',
           confirmText: 'Oke',
           onConfirm: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
+            Navigator.of(context).popUntil((route) => route.isFirst);
           },
         );
       },

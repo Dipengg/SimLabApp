@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'tool_detail.dart';
+import 'detailalat.dart';
 
-class ToolListPage extends StatefulWidget {
-  const ToolListPage({super.key});
+class DaftarAlatPage extends StatefulWidget {
+  const DaftarAlatPage({super.key});
 
   @override
-  State<ToolListPage> createState() => _ToolListPageState();
+  State<DaftarAlatPage> createState() => _DaftarAlatPageState();
 }
 
-class _ToolListPageState extends State<ToolListPage> {
+class _DaftarAlatPageState extends State<DaftarAlatPage> {
   final List<Map<String, String>> tools = [
     {'name': 'Proyektor', 'image': 'images/proyektor.jpg'},
     {'name': 'Keyboard', 'image': 'images/keyboard.jpg'},
@@ -19,7 +19,7 @@ class _ToolListPageState extends State<ToolListPage> {
   ];
 
   List<Map<String, String>> _filteredTools = [];
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -65,15 +65,15 @@ class _ToolListPageState extends State<ToolListPage> {
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: 'Cari',
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text('Daftar Alat', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -81,7 +81,7 @@ class _ToolListPageState extends State<ToolListPage> {
           ),
           Expanded(
             child: _filteredTools.isEmpty
-                ? Center(
+                ? const Center(
                     child: Text(
                       'Tidak ditemukan hasil untuk pencarian ini',
                       style: TextStyle(fontSize: 16, color: Colors.grey),
@@ -89,7 +89,7 @@ class _ToolListPageState extends State<ToolListPage> {
                   )
                 : GridView.builder(
                     padding: const EdgeInsets.all(16.0),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 1,
                       crossAxisSpacing: 16,
@@ -103,7 +103,7 @@ class _ToolListPageState extends State<ToolListPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ToolDetailPage(tool: tool),
+                              builder: (context) => DetailAlatPage(tool: tool),
                             ),
                           );
                         },
@@ -119,10 +119,10 @@ class _ToolListPageState extends State<ToolListPage> {
                                 height: 80,
                                 width: 80,
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               Text(
                                 tool['name']!,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),

@@ -104,7 +104,7 @@ class _SearchPageState extends State<SearchPage> {
           ),
           Expanded(
             child: _filteredItems.isEmpty
-                ? Center(
+                ? const Center(
                     child: Text(
                       'Tidak ditemukan hasil untuk pencarian ini',
                       style: TextStyle(fontSize: 16, color: Colors.grey),

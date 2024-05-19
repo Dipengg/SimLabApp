@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class RoomDetailPage extends StatelessWidget {
+class DetailRuanganPage extends StatelessWidget {
   final Map<String, String> room;
 
-  const RoomDetailPage({Key? key, required this.room}) : super(key: key);
+  const DetailRuanganPage({super.key, required this.room});
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +28,16 @@ class RoomDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Nama Ruangan:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('Nama Ruangan:', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(room['name']!),
-                  SizedBox(height: 10),
-                  Text('Kapasitas:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  const Text('Kapasitas:', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(room['capacity']!),
-                  SizedBox(height: 10),
-                  Text('Lokasi:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  const Text('Lokasi:', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(room['location']!),
-                  SizedBox(height: 10),
-                  Text('Operation:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  const Text('Operation:', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(room['operation']!),
                 ],
               ),

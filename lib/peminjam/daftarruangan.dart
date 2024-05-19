@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'room_detail.dart';
+import 'detailruangan.dart';
 
-class RoomListPage extends StatefulWidget {
-  const RoomListPage({super.key});
+class DaftarRuanganPage extends StatefulWidget {
+  const DaftarRuanganPage({super.key});
 
   @override
-  State<RoomListPage> createState() => _RoomListPageState();
+  State<DaftarRuanganPage> createState() => _DaftarRuanganPageState();
 }
 
-class _RoomListPageState extends State<RoomListPage> {
+class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
   final List<Map<String, String>> rooms = [
     {
       'name': 'Laboratorium A1',
@@ -55,7 +55,7 @@ class _RoomListPageState extends State<RoomListPage> {
   ];
 
   List<Map<String, String>> _filteredRooms = [];
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -101,15 +101,15 @@ class _RoomListPageState extends State<RoomListPage> {
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: 'Cari',
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text('Daftar Ruangan', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -117,7 +117,7 @@ class _RoomListPageState extends State<RoomListPage> {
           ),
           Expanded(
             child: _filteredRooms.isEmpty
-                ? Center(
+                ? const Center(
                     child: Text(
                       'Tidak ditemukan hasil untuk pencarian ini',
                       style: TextStyle(fontSize: 16, color: Colors.grey),
@@ -125,7 +125,7 @@ class _RoomListPageState extends State<RoomListPage> {
                   )
                 : GridView.builder(
                     padding: const EdgeInsets.all(16.0),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 1,
                       crossAxisSpacing: 16,
@@ -139,7 +139,7 @@ class _RoomListPageState extends State<RoomListPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => RoomDetailPage(room: room),
+                              builder: (context) => DetailRuanganPage(room: room),
                             ),
                           );
                         },
@@ -155,10 +155,10 @@ class _RoomListPageState extends State<RoomListPage> {
                                 height: 80,
                                 width: 80,
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               Text(
                                 room['name']!,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ],
                           ),

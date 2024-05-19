@@ -4,8 +4,8 @@ import 'search.dart';
 import 'riwayat.dart';
 import 'profile.dart';
 import 'notification.dart';
-import 'tool_list.dart';
-import 'room_list.dart';
+import 'daftaralat.dart';
+import 'daftarruangan.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                'Halo Radifo!',
+                'Halo, Ariel!',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
@@ -149,13 +149,13 @@ class _HomePageState extends State<HomePage> {
             _createButton('Daftar Alat', Icons.build, () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ToolListPage()),
+                MaterialPageRoute(builder: (context) => const DaftarAlatPage()),
               );
             }),
             _createButton('Daftar Ruangan', Icons.meeting_room, () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const RoomListPage()),
+                MaterialPageRoute(builder: (context) => const DaftarRuanganPage()),
               );
             }),
           ],
