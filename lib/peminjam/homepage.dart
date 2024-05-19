@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'formpeminjaman.dart';
 import 'search.dart';
 import 'history.dart';
 import 'profile.dart';
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: const Text('Halo Alfiano!'),
+        title: const Text('Halo, Ariel!'),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -124,7 +125,14 @@ class _HomePageState extends State<HomePage> {
       child: ElevatedButton.icon(
         icon: Icon(icon, color: Colors.white, size: 20),
         label: Text(title),
-        onPressed: () {},
+        onPressed: () {
+          if (title == 'Peminjaman') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const FormPeminjamanPage()),
+            );
+          }
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.green,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

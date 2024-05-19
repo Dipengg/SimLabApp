@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+import 'package:peminjaman_lab/peminjam/login.dart';
 
 void main() {
   runApp(const MyApp());

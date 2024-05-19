@@ -15,16 +15,16 @@ class NotificationPage extends StatelessWidget {
         child: ListView(
           children: [
             _buildNotificationItem(
-              title: 'Perhatian',
-              message: 'Tenggat masa peminjaman untuk proyektor telah habis.',
+              title: 'Selamat Datang!',
+              message: 'Selamat datang di FIT LAB\n15 Sept 2022 20:55 WIB\n"Coba Fitur Sekarang"',
             ),
             _buildNotificationItem(
-              title: 'Penting',
-              message: 'Segera kembalikan alat "Keyboard" ke laboratorium.',
+              title: 'Tenggat Waktu Pengembalian!',
+              message: '17 Sept 2022 20:55 WIB\nAnda menerima notifikasi\n"Konfirmasi pengembalian sekarang"',
             ),
             _buildNotificationItem(
-              title: 'Informasi',
-              message: 'Laboratorium AI akan ditutup untuk perawatan pada tanggal 15 Mei 2024.',
+              title: 'Tenggat Waktu Pengembalian!',
+              message: '17 Sept 2022 20:55 WIB\nAnda menerima notifikasi\n"Konfirmasi pengembalian sekarang"',
             ),
           ],
         ),
@@ -37,10 +37,10 @@ class NotificationPage extends StatelessWidget {
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
+        leading: const Icon(Icons.notifications, color: Colors.green),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text(message),
-        onTap: () {
-        },
+        onTap: () {},
       ),
     );
   }
