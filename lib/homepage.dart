@@ -19,27 +19,39 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: const Text('Halo Rayyantol!'),
+        title: const Text('Halo Alfiano!'),
         centerTitle: true,
         actions: <Widget>[
-  IconButton(
-    icon: const Icon(Icons.notifications),
-    onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const NotificationPage()),
-      );
-    },
-  ),
-],
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const NotificationPage()),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 20),
             _buildButtonSection(),
-            _buildItemGrid(title: 'Daftar Alat', items: ['Proyektor', 'Keyboard']),
-            _buildItemGrid(title: 'Daftar Ruangan', items: ['Laboratorium AI', 'Laboratorium A2']),
+            _buildItemGrid(
+              title: 'Daftar Alat',
+              items: [
+                {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
+                {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
+              ],
+            ),
+            _buildItemGrid(
+              title: 'Daftar Ruangan',
+              items: [
+                {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg'},
+                {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg'},
+              ],
+            ),
           ],
         ),
       ),
@@ -69,7 +81,7 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
     });
 
-    switch(index) {
+    switch (index) {
       case 1:
         Navigator.push(
           context,
@@ -94,9 +106,9 @@ class _HomePageState extends State<HomePage> {
   Widget _buildButtonSection() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           _createButton('Peminjaman', Icons.library_books),
           _createButton('Daftar Alat', Icons.build),
@@ -122,7 +134,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildItemGrid({required String title, required List<String> items}) {
+  Widget _buildItemGrid({required String title, required List<Map<String, String>> items}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -134,24 +146,29 @@ class _HomePageState extends State<HomePage> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 2,
-          childAspectRatio: 1.5,
+          childAspectRatio: 1.0,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          children: items.map((item) => _gridItem(item)).toList(),
+          children: items.map((item) => _gridItem(item['title']!, item['image']!)).toList(),
         ),
       ],
     );
   }
 
-  Widget _gridItem(String title) {
+  Widget _gridItem(String title, String image) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Center(
-        child: Text(title, style: const TextStyle(fontSize: 16)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(image, width: 100, height: 100),
+          const SizedBox(height: 10),
+          Text(title, style: const TextStyle(fontSize: 16)),
+        ],
       ),
     );
   }
