@@ -9,53 +9,120 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final List<Map<String, dynamic>> _items = [
-    {'name': 'Proyektor', 'icon': Icons.desktop_windows},
-    {'name': 'Keyboard', 'icon': Icons.keyboard},
-    {'name': 'Power Supply', 'icon': Icons.power},
-    {'name': 'RAM', 'icon': Icons.memory},
-    {'name': 'Kabel HDMI', 'icon': Icons.cable},
-    {'name': 'Kabel Jack', 'icon': Icons.cable},
+    {'name': 'Proyektor', 'icon': Icons.desktop_windows, 'type': 'Alat'},
+    {'name': 'Keyboard', 'icon': Icons.keyboard, 'type': 'Alat'},
+    {'name': 'Power Supply', 'icon': Icons.power, 'type': 'Alat'},
+    {'name': 'RAM', 'icon': Icons.memory, 'type': 'Alat'},
+    {'name': 'Kabel HDMI', 'icon': Icons.cable, 'type': 'Alat'},
+    {'name': 'Kabel Jack', 'icon': Icons.cable, 'type': 'Alat'},
+    {'name': 'Laboratorium A1', 'icon': Icons.meeting_room, 'type': 'Ruangan'},
+    {'name': 'Laboratorium A2', 'icon': Icons.meeting_room, 'type': 'Ruangan'},
   ];
+
+  List<Map<String, dynamic>> _filteredItems = [];
+  String _searchQuery = '';
+  String _filterType = 'Semua';
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredItems = _items;
+  }
+
+  void _filterItems() {
+    setState(() {
+      if (_filterType == 'Semua') {
+        _filteredItems = _items.where((item) {
+          return item['name'].toLowerCase().contains(_searchQuery.toLowerCase());
+        }).toList();
+      } else {
+        _filteredItems = _items.where((item) {
+          return item['name'].toLowerCase().contains(_searchQuery.toLowerCase()) &&
+              item['type'] == _filterType;
+        }).toList();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: const Text('Daftar Alat'),
+        title: const Text('Pencarian'),
         centerTitle: true,
       ),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Cari',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide.none,
+            child: Column(
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Cari',
+                    prefixIcon: const Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _searchQuery = value;
+                      _filterItems();
+                    });
+                  },
                 ),
-                filled: true,
-                fillColor: Colors.grey[200],
-              ),
+                const SizedBox(height: 10),
+                DropdownButtonFormField<String>(
+                  value: _filterType,
+                  items: ['Semua', 'Alat', 'Ruangan'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (newValue) {
+                    setState(() {
+                      _filterType = newValue!;
+                      _filterItems();
+                    });
+                  },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1.0,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-              ),
-              padding: const EdgeInsets.all(10),
-              itemCount: _items.length,
-              itemBuilder: (context, index) {
-                return _buildGridItem(_items[index]);
-              },
-            ),
+            child: _filteredItems.isEmpty
+                ? Center(
+                    child: Text(
+                      'Tidak ditemukan hasil untuk pencarian ini',
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                    ),
+                  )
+                : GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.0,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    itemCount: _filteredItems.length,
+                    itemBuilder: (context, index) {
+                      return _buildGridItem(_filteredItems[index]);
+                    },
+                  ),
           ),
         ],
       ),

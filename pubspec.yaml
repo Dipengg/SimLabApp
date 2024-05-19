@@ -62,9 +62,16 @@ flutter:
   assets:
     - images/proyektor.jpg
     - images/keyboard.jpg
+    - images/power_supply.jpg
+    - images/RAM.jpg
+    - images/kabel_hdmi.jpg
+    - images/kabel_jack.jpg
     - images/lab_a1.jpg
     - images/lab_a2.jpg
-
+    - images/lab_a3.jpg
+    - images/lab_a4.jpg
+    - images/lab_a5.jpg
+    - images/lab_a6.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
