@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'formpeminjaman.dart';
 import 'search.dart';
-import 'history.dart';
+import 'riwayat.dart';
 import 'profile.dart';
 import 'notification.dart';
 
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HistoryPage()),
+          MaterialPageRoute(builder: (context) => const RiwayatPage()),
         );
         break;
       case 3:
