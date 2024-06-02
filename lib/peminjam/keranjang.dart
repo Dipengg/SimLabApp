@@ -55,8 +55,8 @@ class _KeranjangPageState extends State<KeranjangPage> {
                 children: [
                   Image.asset(
                     item['image'],
-                    width: 50,
-                    height: 50,
+                    width: 60,
+                    height: 60,
                     fit: BoxFit.cover,
                   ),
                   const SizedBox(width: 10),
@@ -73,12 +73,12 @@ class _KeranjangPageState extends State<KeranjangPage> {
                   Row(
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.remove, color: Colors.green),
+                        icon: const Icon(Icons.remove_circle, color: Colors.green),
                         onPressed: () => _decrementQuantity(index),
                       ),
                       Text('${item['quantity']}', style: const TextStyle(fontSize: 16)),
                       IconButton(
-                        icon: const Icon(Icons.add, color: Colors.green),
+                        icon: const Icon(Icons.add_circle, color: Colors.green),
                         onPressed: () => _incrementQuantity(index),
                       ),
                       IconButton(
