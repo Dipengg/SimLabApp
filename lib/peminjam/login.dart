@@ -40,46 +40,58 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.green,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Text(
-                'Selamat Datang di Aplikasi Peminjaman Laboratorium!',
-                textAlign: TextAlign.center,
+                'Selamat Datang!\nMasukkan Data Diri Anda',
+                textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
               TextField(
                 controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
-                  hintText: 'Masukkan Email anda',
+                  hintText: 'Masukkan email anda',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
                   filled: true,
                   fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               TextField(
                 controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: 'Kata sandi',
+                  labelText: 'Password',
                   hintText: 'Masukkan kata sandi anda',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
                   filled: true,
                   fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    // Add forgot password functionality
+                  },
+                  child: const Text('Lupa kata sandi?', style: TextStyle(color: Colors.white)),
                 ),
               ),
               const SizedBox(height: 20),
@@ -89,11 +101,12 @@ class _LoginPageState extends State<LoginPage> {
                   foregroundColor: Colors.green, backgroundColor: Colors.white,
                   minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 child: const Text('Masuk'),
               ),
+              const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
                   Navigator.push(
@@ -101,14 +114,14 @@ class _LoginPageState extends State<LoginPage> {
                     MaterialPageRoute(builder: (context) => const RegisterPage()),
                   );
                 },
-                child: const Text('Belum punya akun? Daftar disini!', style: TextStyle(color: Colors.white)),
+                child: const Text('Belum memiliki akun? Daftar disini', style: TextStyle(color: Colors.white)),
               ),
               if (message.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     message,
-                    style: const TextStyle(color: Color.fromARGB(255, 255, 17, 0)),
+                    style: const TextStyle(color: Colors.red),
                   ),
                 ),
             ],

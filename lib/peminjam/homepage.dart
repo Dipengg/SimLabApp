@@ -6,6 +6,7 @@ import 'profile.dart';
 import 'notification.dart';
 import 'daftaralat.dart';
 import 'daftarruangan.dart';
+import 'keranjang.dart'; // Import the KeranjangPage
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,6 +17,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  final List<Widget> _pages = [
+    const HomePageContent(),
+    const SearchPage(),
+    const RiwayatPage(),
+    const ProfilePage(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,38 +48,18 @@ class _HomePageState extends State<HomePage> {
               );
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const KeranjangPage()),
+              );
+            },
+          ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Halo, Ariel!',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 10),
-            _buildButtonSection(),
-            _buildItemGrid(
-              title: 'Daftar Alat',
-              items: [
-                {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
-                {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
-              ],
-            ),
-            _buildItemGrid(
-              title: 'Daftar Ruangan',
-              items: [
-                {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg'},
-                {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg'},
-              ],
-            ),
-          ],
-        ),
-      ),
+      body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
@@ -91,35 +84,46 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+class HomePageContent extends StatelessWidget {
+  const HomePageContent({super.key});
 
-    switch (index) {
-      case 1:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SearchPage()),
-        );
-        break;
-      case 2:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const RiwayatPage()),
-        );
-        break;
-      case 3:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ProfilePage()),
-        );
-        break;
-    }
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              'Halo, Ariel!',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+          ),
+          const SizedBox(height: 10),
+          _buildButtonSection(context),
+          _buildItemGrid(
+            title: 'Daftar Alat',
+            items: [
+              {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
+              {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
+            ],
+          ),
+          _buildItemGrid(
+            title: 'Daftar Ruangan',
+            items: [
+              {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg'},
+              {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg'},
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
-  Widget _buildButtonSection() {
+  Widget _buildButtonSection(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Container(
@@ -139,23 +143,24 @@ class _HomePageState extends State<HomePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _createButton('Peminjaman', Icons.library_books, () {
+            _createButton(context, 'Peminjaman', Icons.library_books, () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const FormPeminjamanPage()),
               );
             }),
-            _createButton('Daftar Alat', Icons.build, () {
+            _createButton(context, 'Daftar Alat', Icons.build, () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const DaftarAlatPage()),
               );
             }),
-            _createButton('Daftar Ruangan', Icons.meeting_room, () {
+            _createButton(context, 'Daftar Ruangan', Icons.meeting_room, () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const DaftarRuanganPage()),
+                MaterialPageRoute(
+                    builder: (context) => const DaftarRuanganPage()),
               );
             }),
           ],
@@ -164,7 +169,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _createButton(String title, IconData icon, VoidCallback onPressed) {
+  Widget _createButton(BuildContext context, String title, IconData icon,
+      VoidCallback onPressed) {
     return Column(
       children: [
         ElevatedButton(

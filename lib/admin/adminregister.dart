@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:peminjaman_lab/peminjam/register.dart';
 import 'package:peminjaman_lab/peminjam/login.dart';
 
 class AdminRegisterPage extends StatefulWidget {
@@ -14,7 +13,7 @@ class _AdminRegisterPageState extends State<AdminRegisterPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _nipController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  String roleValue = 'Pilih sebagai apa';
+  String roleValue = 'Pilih peran anda';
   String message = '';
 
   void _validateAndRegisterAdmin() {
@@ -23,9 +22,12 @@ class _AdminRegisterPageState extends State<AdminRegisterPage> {
     String nip = _nipController.text.trim();
     String password = _passwordController.text.trim();
 
-    if (email.isEmpty || name.isEmpty || nip.isEmpty || password.isEmpty) {
+    if (email.isEmpty || name.isEmpty || nip.isEmpty || password.isEmpty || roleValue == 'Pilih peran anda') {
       setState(() {
         message = "Silakan isi semua kolom.";
+        if (roleValue == 'Pilih peran anda') {
+          message += " Pilih peran yang dituju.";
+        }
       });
     } else {
       showDialog(
@@ -63,102 +65,161 @@ class _AdminRegisterPageState extends State<AdminRegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Form Pendaftaran'),
-        backgroundColor: Colors.green,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            DropdownButton<String>(
-              value: roleValue,
-              isExpanded: true,
-              onChanged: (String? newValue) {
-                if (newValue == "Peminjam") {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const RegisterPage()),
-                  );
-                } else {
-                  setState(() {
-                    roleValue = newValue!;
-                  });
-                }
-              },
-              items: <String>['Pilih sebagai apa', 'Admin', 'Peminjam']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                hintText: 'Masukkan email anda',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: _nameController,
-              decoration: const InputDecoration(
-                labelText: 'Nama',
-                hintText: 'Masukkan nama anda',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: _nipController,
-              decoration: const InputDecoration(
-                labelText: 'NIP',
-                hintText: 'Masukkan NIP anda',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Kata Sandi',
-                hintText: 'Masukkan kata sandi baru anda',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _validateAndRegisterAdmin,
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Colors.green,
-              ),
-              child: const Text('Daftar'),
-            ),
-            Visibility(
-              visible: message.isNotEmpty,
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Text(
-                  message,
-                  style: const TextStyle(color: Colors.red),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(height: 20),
+                const Text(
+                  'Form Pendaftaran Admin',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
                 ),
-              ),
+                const SizedBox(height: 10),
+                const Text(
+                  'SIMLAB',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                DropdownButtonFormField<String>(
+                  value: roleValue,
+                  isExpanded: true,
+                  decoration: InputDecoration(
+                    labelText: 'Peran',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  ),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      roleValue = newValue!;
+                    });
+                  },
+                  items: <String>['Pilih peran anda', 'Admin', 'Peminjam']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    hintText: 'Masukkan email anda',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Nama',
+                    hintText: 'Masukkan nama lengkap anda',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _nipController,
+                  decoration: InputDecoration(
+                    labelText: 'NIP',
+                    hintText: 'Masukkan NIP anda',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    hintText: 'Masukkan kata sandi baru anda',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _validateAndRegisterAdmin,
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white, backgroundColor: Colors.green,
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text('Daftar'),
+                ),
+                if (message.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      message,
+                      style: const TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Dengan mendaftar, Anda menyetujui ketentuan penggunaan dan kebijakan privasi.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Sudah memiliki akun? Masuk disini', style: TextStyle(color: Colors.green)),
+                ),
+              ],
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text(
-                'Sudah memiliki akun? Masuk disini!',
-                style: TextStyle(color: Colors.green),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -178,9 +239,9 @@ class ValidationDialog extends StatelessWidget {
       ),
       title: Row(
         children: [
-          Icon(Icons.warning, color: Colors.yellow[700]),
+          Icon(Icons.warning, color: Colors.yellow[700], size: 40),
           const SizedBox(width: 10),
-          const Text('Validasi'),
+          const Text('Validasi', style: TextStyle(fontWeight: FontWeight.bold)),
         ],
       ),
       content: const Text('Apakah anda yakin dengan data yang anda masukkan?'),
@@ -189,11 +250,22 @@ class ValidationDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('Tidak', style: TextStyle(color: Colors.grey)),
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.red,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: const Text('Tidak', style: TextStyle(color: Colors.white)),
         ),
         ElevatedButton(
           onPressed: onConfirm,
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
           child: const Text('Yakin'),
         ),
       ],
@@ -223,16 +295,21 @@ class CustomDialog extends StatelessWidget {
       ),
       title: Row(
         children: [
-          const Icon(Icons.info_outline, color: Colors.green),
+          const Icon(Icons.check_circle, color: Colors.green, size: 40),
           const SizedBox(width: 10),
-          Text(title),
+          Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
         ],
       ),
       content: Text(content),
       actions: <Widget>[
         ElevatedButton(
           onPressed: onConfirm,
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
           child: Text(confirmText),
         ),
       ],

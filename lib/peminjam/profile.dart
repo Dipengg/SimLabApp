@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _changePassword() {
-
+    // Implement the change password functionality
   }
 
   void _signOut(BuildContext context) {
