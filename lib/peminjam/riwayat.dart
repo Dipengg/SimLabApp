@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'detailpeminjaman.dart';
-import 'homepage.dart';
-import 'search.dart';
-import 'profile.dart';
 
 class RiwayatPage extends StatefulWidget {
   const RiwayatPage({super.key});
@@ -46,8 +42,14 @@ class _RiwayatPageState extends State<RiwayatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Riwayat Peminjaman'),
+        title: const Text('Riwayat Peminjaman',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
         backgroundColor: Colors.green,
+        centerTitle: true,
       ),
       body: ListView.builder(
         itemCount: peminjamanList.length,

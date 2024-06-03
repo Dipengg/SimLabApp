@@ -48,8 +48,13 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Pencarian',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
         backgroundColor: Colors.green,
-        title: const Text('Pencarian'),
         centerTitle: true,
       ),
       body: Column(

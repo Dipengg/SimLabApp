@@ -9,6 +9,7 @@ class NotificationPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Pemberitahuan!'),
         backgroundColor: Colors.green,
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

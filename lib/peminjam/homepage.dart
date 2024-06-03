@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'formpeminjaman.dart';
-import 'search.dart';
-import 'riwayat.dart';
-import 'profile.dart';
-import 'notification.dart';
-import 'daftaralat.dart';
-import 'daftarruangan.dart';
-import 'keranjang.dart';
+import 'package:peminjaman_lab/peminjam/formpeminjaman.dart';
+import 'package:peminjaman_lab/peminjam/search.dart';
+import 'package:peminjaman_lab/peminjam/riwayat.dart';
+import 'package:peminjaman_lab/peminjam/profile.dart';
+import 'package:peminjaman_lab/peminjam/notification.dart';
+import 'package:peminjaman_lab/peminjam/tool.dart';
+import 'package:peminjaman_lab/peminjam/room.dart';
+import 'package:peminjaman_lab/peminjam/cart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,11 +36,17 @@ class _HomePageState extends State<HomePage> {
       appBar: _selectedIndex == 0
           ? AppBar(
               backgroundColor: Colors.green,
-              title: const Text('SIMLAB'),
+              elevation: 0,
+        title: const Text('SIMLAB',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
               centerTitle: true,
               actions: <Widget>[
                 IconButton(
-                  icon: const Icon(Icons.notifications),
+                  icon: const Icon(Icons.notifications, color: Colors.white),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -50,12 +56,12 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
                 IconButton(
-                  icon: const Icon(Icons.shopping_cart),
+                  icon: const Icon(Icons.shopping_cart, color: Colors.white),
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const KeranjangPage()),
+                          builder: (context) => const CartPage()),
                     );
                   },
                 ),
@@ -98,27 +104,44 @@ class HomePageContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text(
-              'Halo, Ariel!',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          Container(
+            color: Colors.green,
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Halo Roila!',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  'Selamat datang di SIMLAB! Kemudahan untuk meminjam.',
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                ),
+                const SizedBox(height: 20),
+                _buildButtonSection(context),
+              ],
             ),
           ),
           const SizedBox(height: 10),
-          _buildButtonSection(context),
-          _buildItemGrid(
+          _buildHorizontalScrollGrid(
             title: 'Daftar Alat',
             items: [
               {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
               {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
+              {'title': 'Kabel HDMI', 'image': 'images/kabel_hdmi.jpg'},
             ],
           ),
-          _buildItemGrid(
+          _buildHorizontalScrollGrid(
             title: 'Daftar Ruangan',
             items: [
               {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg'},
               {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg'},
+              {'title': 'Laboratorium A3', 'image': 'images/lab_a3.jpg'},
             ],
           ),
         ],
@@ -127,47 +150,44 @@ class HomePageContent extends StatelessWidget {
   }
 
   Widget _buildButtonSection(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _createButton(context, 'Peminjaman', Icons.library_books, () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const FormPeminjamanPage()),
-              );
-            }),
-            _createButton(context, 'Daftar Alat', Icons.build, () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const DaftarAlatPage()),
-              );
-            }),
-            _createButton(context, 'Daftar Ruangan', Icons.meeting_room, () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const DaftarRuanganPage()),
-              );
-            }),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 3,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _createButton(context, 'Peminjaman', Icons.library_books, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const FormPeminjamanPage()),
+            );
+          }),
+          _createButton(context, 'Daftar Alat', Icons.build, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const DaftarAlatPage()),
+            );
+          }),
+          _createButton(context, 'Daftar Ruangan', Icons.meeting_room, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const DaftarRuanganPage()),
+            );
+          }),
+        ],
       ),
     );
   }
@@ -199,56 +219,56 @@ class HomePageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildItemGrid(
+  Widget _buildHorizontalScrollGrid(
       {required String title, required List<Map<String, String>> items}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(title,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
-              const Icon(Icons.arrow_forward),
-            ],
+          child: Text(
+            title,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: 2,
-          childAspectRatio: 1,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          children: items.map((item) => _gridItem(item)).toList(),
+        SizedBox(
+          height: 200,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              return _gridItem(items[index]);
+            },
+          ),
         ),
       ],
     );
   }
 
   Widget _gridItem(Map<String, String> item) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            item['image']!,
-            height: 80,
-            width: 80,
-          ),
-          const SizedBox(height: 10),
-          Text(
-            item['title']!,
-            style: const TextStyle(fontSize: 16),
-          ),
-        ],
+    return Container(
+      width: 160,
+      margin: const EdgeInsets.only(right: 10),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              item['image']!,
+              height: 80,
+              width: 80,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              item['title']!,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
       ),
     );
   }

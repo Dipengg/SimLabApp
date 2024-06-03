@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'register.dart';
-import 'homepage.dart';
+import 'package:peminjaman_lab/peminjam/register.dart';
+import 'package:peminjaman_lab/peminjam/homepage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,6 +22,11 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         message = "Silakan isi semua kolom";
       });
+    } else if (email == "peminjam" && password == "123") {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
     } else if (email == "admin" && password == "admin") {
       Navigator.pushReplacement(
         context,

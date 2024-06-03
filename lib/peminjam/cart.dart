@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'formpeminjaman.dart';
 
-class KeranjangPage extends StatefulWidget {
-  const KeranjangPage({super.key});
+class CartPage extends StatefulWidget {
+  const CartPage({super.key});
 
   @override
-  State<KeranjangPage> createState() => _KeranjangPageState();
+  State<CartPage> createState() => _CartPageState();
 }
 
-class _KeranjangPageState extends State<KeranjangPage> {
+class _CartPageState extends State<CartPage> {
   final List<Map<String, dynamic>> _items = [
     {'name': 'Keyboard', 'category': 'Alat', 'status': 'Cukup', 'quantity': 1, 'image': 'images/keyboard.jpg'},
     {'name': 'Proyektor', 'category': 'Alat', 'status': 'Baik', 'quantity': 1, 'image': 'images/proyektor.jpg'},
@@ -42,6 +42,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
       appBar: AppBar(
         title: const Text('Keranjang'),
         backgroundColor: Colors.green,
+        centerTitle: true,
       ),
       body: ListView.builder(
         itemCount: _items.length,

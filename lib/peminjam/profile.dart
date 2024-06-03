@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+import 'package:peminjaman_lab/login.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -9,8 +9,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final String _profileName = 'Ariel Tantrum';
-  final String _profileNIM = '6701220069';
+  final String _profileName = 'Roila Rachipan';
+  final String _profileNIM = '6701220000';
   final String _profileRole = 'Mahasiswi';
   String _profileImageUrl = 'https://cdn0-production-images-kly.akamaized.net/FnprvDLlZmT8bOutattTcr6sCIY=/1200x1200/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/4179938/original/068642100_1664862182-ariel_tatum_pfw.jpg';
 
@@ -35,8 +35,14 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Profile',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
         backgroundColor: Colors.green,
+        centerTitle : true,
       ),
       body: Center(
         child: SingleChildScrollView(
