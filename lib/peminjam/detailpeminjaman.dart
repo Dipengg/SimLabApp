@@ -3,102 +3,90 @@ import 'package:peminjaman_lab/peminjam/history.dart';
 
 class DetailPeminjamanPage extends StatelessWidget {
   final Peminjaman peminjaman;
+  final String title;
 
-  const DetailPeminjamanPage({super.key, required this.peminjaman});
-  
-  get peminjamanList => null;
+  const DetailPeminjamanPage({super.key, required this.peminjaman, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detail Peminjaman'),
-        backgroundColor: Colors.green,
-        centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Text(
-                  'Peminjaman ${peminjamanList.indexOf(peminjaman) + 1}',
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-              const SizedBox(height: 20),
-              _buildDetailRow('Nama Peminjam:', peminjaman.namaPeminjam),
-              _buildDetailRow('NIM:', peminjaman.nim),
-              _buildDetailRow('Kategori Peminjaman:', peminjaman.kategori),
-              const SizedBox(height: 8),
-              const Text(
-                'Detail Peminjaman:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            _buildDetailRow('Nama Peminjam:', peminjaman.namaPeminjam),
+            _buildDetailRow('NIM:', peminjaman.nim),
+            _buildDetailRow('Kategori Peminjaman:', peminjaman.kategori),
+            _buildDetailRow('Detail Peminjaman:', ''),
+            _buildDetailList(peminjaman.detail),
+            _buildDetailRow('Tanggal Peminjaman:', peminjaman.tanggalPeminjaman),
+            _buildDetailRow('Tanggal Pengembalian:', peminjaman.tanggalPengembalian),
+            _buildDetailRow('Keperluan:', peminjaman.keperluan),
+            _buildDetailRow('Laporan:', 'Semua alat yang dipinjam, dikembalikan dengan kondisi barang yang sama.'),
+            const Spacer(),
+            const Align(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                'Berikan feedback anda disini! Tulis disini',
+                style: TextStyle(color: Colors.green),
               ),
-              const SizedBox(height: 4),
-              ...peminjaman.detail.map(
-                  (item) => Text('• $item', style: const TextStyle(fontSize: 16))),
-              const SizedBox(height: 8),
-              _buildDetailRow('Tanggal Peminjaman:', peminjaman.tanggalPeminjaman),
-              _buildDetailRow('Tanggal Pengembalian:', peminjaman.tanggalPengembalian),
-              _buildDetailRow('Keperluan:', peminjaman.keperluan),
-              const SizedBox(height: 8),
-              const Text(
-                'Laporan:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const Text(
-                'Semua alat yang dipinjam, dikembalikan dengan kondisi barang yang sama.',
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 20),
-              const Center(
-                child: Text(
-                  'Berikan feedback anda disini!',
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                ),
-              ),
-               Center(
-                child: GestureDetector(
-                  onTap: () {
-                  },
-                  child: const Text(
-                    'Tulis disini',
-                    style: TextStyle(fontSize: 16, color: Colors.green),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildDetailRow(String title, String value) {
+  Widget _buildDetailRow(String title, String content) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontSize: 16),
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: '$title ',
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-        ],
+            TextSpan(
+              text: content,
+              style: const TextStyle(color: Colors.black),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailList(List<String> items) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: items.map((item) => Text('• $item')).toList(),
       ),
     );
   }

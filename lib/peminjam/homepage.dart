@@ -7,8 +7,6 @@ import 'package:peminjaman_lab/peminjam/notification.dart';
 import 'package:peminjaman_lab/peminjam/daftaralat.dart';
 import 'package:peminjaman_lab/peminjam/daftarruangan.dart';
 import 'package:peminjaman_lab/peminjam/cart.dart';
-import 'package:peminjaman_lab/peminjam/detailalat.dart';
-import 'package:peminjaman_lab/peminjam/detailruangan.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -137,6 +135,7 @@ class HomePageContent extends StatelessWidget {
             items: [
               {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
               {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
+              {'title': 'Mouse', 'image': 'images/mouse.jpg'},
             ],
             isEquipment: true,
           ),
@@ -146,6 +145,7 @@ class HomePageContent extends StatelessWidget {
             items: [
               {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg'},
               {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg'},
+              {'title': 'Laboratorium B1', 'image': 'images/lab_a3.jpg'},
             ],
             isEquipment: false,
           ),
@@ -256,39 +256,27 @@ class HomePageContent extends StatelessWidget {
   }
 
   Widget _gridItem(BuildContext context, Map<String, String> item, bool isEquipment) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => isEquipment
-                ? DetailAlatPage(tool: item)
-                : DetailRuanganPage(room: item),
-          ),
-        );
-      },
-      child: Container(
-        width: 160,
-        margin: const EdgeInsets.only(right: 10),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                item['image']!,
-                height: 80,
-                width: 80,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                item['title']!,
-                style: const TextStyle(fontSize: 16),
-              ),
-            ],
-          ),
+    return Container(
+      width: 160,
+      margin: const EdgeInsets.only(right: 10),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              item['image']!,
+              height: 80,
+              width: 80,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              item['title']!,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ],
         ),
       ),
     );

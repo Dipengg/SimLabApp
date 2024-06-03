@@ -73,8 +73,10 @@ class _RiwayatPageState extends State<RiwayatPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          DetailPeminjamanPage(peminjaman: peminjaman),
+                      builder: (context) => DetailPeminjamanPage(
+                        peminjaman: peminjaman,
+                        title: 'Peminjaman ${index + 1}',
+                      ),
                     ),
                   );
                 },
