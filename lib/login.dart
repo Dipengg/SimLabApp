@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peminjaman_lab/admin/adminhomepage.dart';
 import 'package:peminjaman_lab/peminjam/register.dart';
 import 'package:peminjaman_lab/peminjam/homepage.dart';
 
@@ -30,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
     } else if (email == "admin" && password == "admin") {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
+        MaterialPageRoute(builder: (context) => const AdminHomePage()),
       );
     } else {
       setState(() {

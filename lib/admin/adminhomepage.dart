@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:peminjaman_lab/peminjam/formpeminjaman.dart';
-import 'package:peminjaman_lab/peminjam/search.dart';
-import 'package:peminjaman_lab/peminjam/history.dart';
-import 'package:peminjaman_lab/peminjam/profile.dart';
-import 'package:peminjaman_lab/peminjam/notification.dart';
-import 'package:peminjaman_lab/peminjam/tool.dart';
-import 'package:peminjaman_lab/peminjam/room.dart';
-import 'package:peminjaman_lab/peminjam/cart.dart';
+import 'package:peminjaman_lab/admin/kelola_peminjaman.dart';
+import 'package:peminjaman_lab/admin/kelola_alat.dart';
+import 'package:peminjaman_lab/admin/kelola_pengembalian.dart';
+import 'package:peminjaman_lab/admin/kelola_ruangan.dart';
+import 'package:peminjaman_lab/admin/notifikasi_admin.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+
+class AdminHomePage extends StatefulWidget {
+  const AdminHomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<AdminHomePage> createState() => _AdminHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _AdminHomePageState extends State<AdminHomePage> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [
-    const HomePageContent(),
-    const SearchPage(),
-    const RiwayatPage(),
-    const ProfilePage(),
+    const AdminHomePageContent(),
+    // Add other pages here if needed
   ];
 
   void _onItemTapped(int index) {
@@ -37,12 +33,11 @@ class _HomePageState extends State<HomePage> {
           ? AppBar(
               backgroundColor: Colors.green,
               elevation: 0,
-        title: const Text('SIMLAB',
+              title: const Text('FIT-LAB',
                   style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
+                      color: Colors.white)),
               centerTitle: true,
               actions: <Widget>[
                 IconButton(
@@ -51,17 +46,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const NotificationPage()),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.shopping_cart, color: Colors.white),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CartPage()),
+                          builder: (context) => const NotificationAdminPage()),
                     );
                   },
                 ),
@@ -78,7 +63,7 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.history, size: 30), label: 'Riwayat'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person, size: 30), label: 'Profile'),
+              icon: Icon(Icons.person, size: 30), label: 'Profil'),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.green,
@@ -95,8 +80,8 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class HomePageContent extends StatelessWidget {
-  const HomePageContent({super.key});
+class AdminHomePageContent extends StatelessWidget {
+  const AdminHomePageContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +96,7 @@ class HomePageContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Halo Roila!',
+                  'Halo Alfiano!',
                   style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -119,7 +104,7 @@ class HomePageContent extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 const Text(
-                  'Selamat datang di SIMLAB! Kemudahan untuk meminjam.',
+                  'Selamat datang di FIT-LAB! Kemudahan untuk meminjam.',
                   style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
                 const SizedBox(height: 20),
@@ -133,7 +118,6 @@ class HomePageContent extends StatelessWidget {
             items: [
               {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
               {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
-              {'title': 'Kabel HDMI', 'image': 'images/kabel_hdmi.jpg'},
             ],
           ),
           _buildHorizontalScrollGrid(
@@ -141,7 +125,6 @@ class HomePageContent extends StatelessWidget {
             items: [
               {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg'},
               {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg'},
-              {'title': 'Laboratorium A3', 'image': 'images/lab_a3.jpg'},
             ],
           ),
         ],
@@ -167,24 +150,31 @@ class HomePageContent extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _createButton(context, 'Peminjaman', Icons.library_books, () {
+          _createButton(context, 'Kelola Peminjaman', Icons.library_books, () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const FormPeminjamanPage()),
+                  builder: (context) => const KelolaPeminjamanPage()),
             );
           }),
-          _createButton(context, 'Daftar Alat', Icons.build, () {
+          _createButton(context, 'Kelola Alat', Icons.build, () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const DaftarAlatPage()),
+              MaterialPageRoute(builder: (context) => const KelolaAlatPage()),
             );
           }),
-          _createButton(context, 'Daftar Ruangan', Icons.meeting_room, () {
+          _createButton(context, 'Kelola Pengembalian', Icons.history, () {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const DaftarRuanganPage()),
+                  builder: (context) => const KelolaPengembalianPage()),
+            );
+          }),
+          _createButton(context, 'Kelola Ruangan', Icons.meeting_room, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const KelolaRuanganPage()),
             );
           }),
         ],
