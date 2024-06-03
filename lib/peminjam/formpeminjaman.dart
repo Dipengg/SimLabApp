@@ -8,10 +8,9 @@ class FormPeminjamanPage extends StatefulWidget {
 }
 
 class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
-  bool _isRuanganSelected = false;
-  bool _isAlatSelected = false;
   DateTime? _tanggalPeminjaman;
   DateTime? _tanggalPengembalian;
+  final TextEditingController _keperluanController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,21 +25,28 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildTextField('Nama', 'Masukkan nama lengkap anda'),
-              _buildTextField('NIM', 'Masukkan NIM anda'),
-              _buildKategoriField(),
-              _buildTextField('Detail Peminjaman', 'Masukkan Alat / Ruangan'),
+              _buildDetailSection('Identitas Peminjam', 'Roila Rachipan\n6701220000'),
+              _buildDetailSection('Kategori', 'Alat'),
+              _buildDetailSection('Detail Peminjaman', '• Keyboard\n• Proyektor\n• Kabel HDMI'),
+              const SizedBox(height: 20),
               _buildDateField('Tanggal Peminjaman', _tanggalPeminjaman, (selectedDate) {
                 setState(() {
                   _tanggalPeminjaman = selectedDate;
                 });
               }),
+              const SizedBox(height: 20),
               _buildDateField('Tanggal Pengembalian', _tanggalPengembalian, (selectedDate) {
                 setState(() {
                   _tanggalPengembalian = selectedDate;
                 });
               }),
-              _buildTextField('Keperluan', 'Masukkan keterangan keperluan'),
+              const SizedBox(height: 20),
+              _buildTextField('Keperluan', 'Masukkan keterangan keperluan', _keperluanController),
+              const SizedBox(height: 20),
+              const Text(
+                'Dimohon mengisi form peminjaman dengan sebenar-benarnya. Dan harap perhatikan data yang anda inputkan.',
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
               const SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
@@ -55,9 +61,9 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
                               context: context,
                               builder: (BuildContext context) {
                                 return CustomDialog(
-                                  title: 'Data Terkirim',
-                                  content: 'Data peminjaman anda telah berhasil dikirim.',
-                                  confirmText: 'OK',
+                                  title: 'Sukses!',
+                                  content: 'Data peminjaman anda telah terkirim!',
+                                  confirmText: 'Oke',
                                   onConfirm: () {
                                     Navigator.of(context).popUntil((route) => route.isFirst);
                                   },
@@ -72,6 +78,9 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   child: const Text('Kirim', style: TextStyle(fontSize: 16)),
                 ),
@@ -83,10 +92,34 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
     );
   }
 
-  Widget _buildTextField(String label, String hint) {
+  Widget _buildDetailSection(String title, String content) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            content,
+            style: const TextStyle(fontSize: 16),
+          ),
+          const Divider(
+            color: Colors.grey,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTextField(String label, String hint, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextField(
+        controller: controller,
         decoration: InputDecoration(
           labelText: label,
           hintText: hint,
@@ -98,82 +131,45 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
     );
   }
 
-  Widget _buildKategoriField() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Kategori',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          CheckboxListTile(
-            title: const Text('Ruangan'),
-            value: _isRuanganSelected,
-            onChanged: (bool? value) {
-              setState(() {
-                _isRuanganSelected = value ?? false;
-              });
-            },
-          ),
-          CheckboxListTile(
-            title: const Text('Alat'),
-            value: _isAlatSelected,
-            onChanged: (bool? value) {
-              setState(() {
-                _isAlatSelected = value ?? false;
-              });
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildDateField(String label, DateTime? selectedDate, ValueChanged<DateTime?> onDateSelected) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          InkWell(
-            onTap: () async {
-              DateTime? pickedDate = await showDatePicker(
-                context: context,
-                initialDate: selectedDate ?? DateTime.now(),
-                firstDate: DateTime(2000),
-                lastDate: DateTime(2101),
-              );
-              if (pickedDate != null) {
-                onDateSelected(pickedDate);
-              }
-            },
-            child: InputDecorator(
-              decoration: InputDecoration(
-                hintText: selectedDate == null
-                    ? 'Masukkan tanggal'
-                    : '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: Text(
-                selectedDate == null
-                    ? 'Masukkan tanggal'
-                    : '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
-                style: const TextStyle(fontSize: 16),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        InkWell(
+          onTap: () async {
+            DateTime? pickedDate = await showDatePicker(
+              context: context,
+              initialDate: selectedDate ?? DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2101),
+            );
+            if (pickedDate != null) {
+              onDateSelected(pickedDate);
+            }
+          },
+          child: InputDecorator(
+            decoration: InputDecoration(
+              hintText: selectedDate == null
+                  ? 'Masukkan tanggal peminjaman'
+                  : '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
+            child: Text(
+              selectedDate == null
+                  ? 'Masukkan tanggal peminjaman'
+                  : '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
+              style: const TextStyle(fontSize: 16),
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -191,22 +187,37 @@ class ValidationDialog extends StatelessWidget {
       ),
       title: Row(
         children: [
-          Icon(Icons.warning, color: Colors.yellow[700]),
+          Icon(Icons.warning, color: Colors.yellow[700], size: 30),
           const SizedBox(width: 10),
-          const Text('Validasi'),
+          const Text(
+            'Validasi',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
-      content: const Text('Apakah anda yakin dengan data yang anda masukkan?'),
+      content: const Text(
+        'Apakah anda yakin dengan data yang anda masukkan?',
+        style: TextStyle(fontSize: 16),
+      ),
       actions: <Widget>[
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('Tidak', style: TextStyle(color: Colors.grey)),
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.red,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          ),
+          child: const Text('Tidak', style: TextStyle(color: Colors.white)),
         ),
         ElevatedButton(
           onPressed: onConfirm,
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          ),
           child: const Text('Yakin'),
         ),
       ],
@@ -236,16 +247,26 @@ class CustomDialog extends StatelessWidget {
       ),
       title: Row(
         children: [
-          const Icon(Icons.info_outline, color: Colors.green),
+          Icon(Icons.check_circle, color: Colors.green[700], size: 30),
           const SizedBox(width: 10),
-          Text(title),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
-      content: Text(content),
+      content: Text(
+        content,
+        style: const TextStyle(fontSize: 16),
+      ),
       actions: <Widget>[
         ElevatedButton(
           onPressed: onConfirm,
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          ),
           child: Text(confirmText),
         ),
       ],

@@ -14,8 +14,8 @@ class _RiwayatPageState extends State<RiwayatPage> {
       nim: '6701220040',
       kategori: 'Alat',
       detail: ['Proyektor', 'Keyboard', 'Kabel HDMI'],
-      tanggalPeminjaman: 'Minggu, 12 Mei 2024',
-      tanggalPengembalian: 'Rabu, 15 Mei 2024',
+      tanggalPeminjaman: '12 Mei 2024',
+      tanggalPengembalian: '15 Mei 2024',
       keperluan: 'Praktikum Mata Kuliah Dasar Pemrograman Perangkat Bergerak',
     ),
     Peminjaman(
@@ -23,8 +23,8 @@ class _RiwayatPageState extends State<RiwayatPage> {
       nim: '6701220069',
       kategori: 'Alat',
       detail: ['Proyektor', 'Keyboard'],
-      tanggalPeminjaman: 'Senin, 21 Mei 2024',
-      tanggalPengembalian: 'Kamis, 24 Mei 2024',
+      tanggalPeminjaman: '21 Mei 2024',
+      tanggalPengembalian: '24 Mei 2024',
       keperluan: 'Praktikum Mata Kuliah Dasar Pemrograman Perangkat Bergerak',
     ),
     Peminjaman(
@@ -32,8 +32,8 @@ class _RiwayatPageState extends State<RiwayatPage> {
       nim: '6701223058',
       kategori: 'Alat',
       detail: ['Proyektor'],
-      tanggalPeminjaman: 'Selasa, 27 Mei 2024',
-      tanggalPengembalian: 'Jumat, 30 Mei 2024',
+      tanggalPeminjaman: '27 Mei 2024',
+      tanggalPengembalian: '30 Mei 2024',
       keperluan: 'Praktikum Mata Kuliah Dasar Pemrograman Perangkat Bergerak',
     ),
   ];
@@ -43,11 +43,11 @@ class _RiwayatPageState extends State<RiwayatPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Riwayat Peminjaman',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white),
+        ),
         backgroundColor: Colors.green,
         centerTitle: true,
       ),
@@ -102,6 +102,8 @@ class DetailPeminjamanPage extends StatelessWidget {
   final Peminjaman peminjaman;
 
   const DetailPeminjamanPage({super.key, required this.peminjaman});
+  
+  get peminjamanList => null;
 
   @override
   Widget build(BuildContext context) {
@@ -112,17 +114,39 @@ class DetailPeminjamanPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Nama Peminjam: ${peminjaman.namaPeminjam}'),
-            Text('NIM: ${peminjaman.nim}'),
-            Text('Kategori: ${peminjaman.kategori}'),
-            Text('Detail: ${peminjaman.detail.join(', ')}'),
-            Text('Tanggal Peminjaman: ${peminjaman.tanggalPeminjaman}'),
-            Text('Tanggal Pengembalian: ${peminjaman.tanggalPengembalian}'),
-            Text('Keperluan: ${peminjaman.keperluan}'),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Peminjaman ${peminjamanList.indexOf(peminjaman) + 1}', 
+                  style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+              ),
+              const SizedBox(height: 20),
+              Text('Nama Peminjam: ${peminjaman.namaPeminjam}', style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 8),
+              Text('NIM: ${peminjaman.nim}', style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 8),
+              Text('Kategori Peminjaman: ${peminjaman.kategori}', style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 8),
+              const Text('Detail Peminjaman:', style: TextStyle(fontSize: 16)),
+              const SizedBox(height: 4),
+              ...peminjaman.detail.map((item) => Text('• $item', style: const TextStyle(fontSize: 16))),
+              const SizedBox(height: 8),
+              Text('Tanggal Peminjaman: ${peminjaman.tanggalPeminjaman}', style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 8),
+              Text('Tanggal Pengembalian: ${peminjaman.tanggalPengembalian}', style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 8),
+              Text('Keperluan: ${peminjaman.keperluan}', style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 8),
+              const Text('Laporan:', style: TextStyle(fontSize: 16)),
+              const Text('Semua alat yang dipinjam, dikembalikan dengan kondisi barang yang sama.', style: TextStyle(fontSize: 16)),
+              const SizedBox(height: 20),
+              const Text('Berikan feedback anda disini! Tulis disini', style: TextStyle(fontSize: 16, color: Colors.green)),
+            ],
+          ),
         ),
       ),
     );

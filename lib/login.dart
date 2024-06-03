@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         message = "Silakan isi semua kolom";
       });
-    } else if (email == "peminjam" && password == "123") {
+    } else if (email == "user" && password == "user") {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),
