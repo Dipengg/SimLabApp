@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'detailalat.dart';
+import 'package:peminjaman_lab/peminjam/detailalat.dart';
 
 class DaftarAlatPage extends StatefulWidget {
   const DaftarAlatPage({super.key});
@@ -114,26 +114,28 @@ class _DaftarAlatPageState extends State<DaftarAlatPage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              tool['image'] != null
-                                  ? Image.asset(
-                                      tool['image']!,
+                              Stack(
+                                children: [
+                                  Image.asset(
+                                    tool['image']!,
+                                    height: 80,
+                                    width: 80,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  if (tool['name'] == 'Kabel HDMI' || tool['name'] == 'Kabel Jack')
+                                    Container(
                                       height: 80,
                                       width: 80,
-                                    )
-                                  : Container(
-                                      height: 80,
-                                      width: 80,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey[300],
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Center(
+                                      color: Colors.black.withOpacity(0.5),
+                                      child: const Center(
                                         child: Text(
                                           'Tidak Tersedia',
-                                          style: TextStyle(color: Colors.grey[700]),
+                                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                         ),
                                       ),
                                     ),
+                                ],
+                              ),
                               const SizedBox(height: 10),
                               Text(
                                 tool['name']!,

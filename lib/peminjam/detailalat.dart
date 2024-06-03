@@ -22,45 +22,29 @@ class DetailAlatPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.all(16.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(tool['image']!),
-              ),
-            ),
+            Image.asset(tool['image']!),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Nama Alat:', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(tool['name']!),
                   const SizedBox(height: 10),
+                  const Text('Keycaps:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('OEM Profile (82 Keycaps)'),
+                  const SizedBox(height: 10),
+                  const Text('Switch:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('Red Switch'),
+                  const SizedBox(height: 10),
+                  const Text('Connection:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('USB Type-C, Bluetooth'),
+                  const SizedBox(height: 10),
+                  const Text('Size:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('75% Layout'),
+                  const SizedBox(height: 10),
                   const Text('Jumlah Yang Tersedia:', style: TextStyle(fontWeight: FontWeight.bold)),
                   const Text('24 Unit'),
-                  const SizedBox(height: 10),
-                  const Text('Kondisi:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const Text('Cukup'),
-                  const SizedBox(height: 10),
-                  const Text('Status:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const Text('Tersedia'),
-                  const SizedBox(height: 20),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Add to cart functionality
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: const Text('Tambah ke keranjang'),
-                    ),
-                  ),
                 ],
               ),
             ),

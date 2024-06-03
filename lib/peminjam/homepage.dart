@@ -5,8 +5,10 @@ import 'package:peminjaman_lab/peminjam/history.dart';
 import 'package:peminjaman_lab/peminjam/profile.dart';
 import 'package:peminjaman_lab/peminjam/notification.dart';
 import 'package:peminjaman_lab/peminjam/daftaralat.dart';
-import 'package:peminjaman_lab/peminjam/room.dart';
+import 'package:peminjaman_lab/peminjam/daftarruangan.dart';
 import 'package:peminjaman_lab/peminjam/cart.dart';
+import 'package:peminjaman_lab/peminjam/detailalat.dart';
+import 'package:peminjaman_lab/peminjam/detailruangan.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,12 +39,13 @@ class _HomePageState extends State<HomePage> {
           ? AppBar(
               backgroundColor: Colors.green,
               elevation: 0,
-        title: const Text('SIMLAB',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
+              title: const Text(
+                'SIMLAB',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
               centerTitle: true,
               actions: <Widget>[
                 IconButton(
@@ -111,7 +114,7 @@ class HomePageContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Halo Roila!',
+                  'Halo Alfiano!',
                   style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -129,20 +132,22 @@ class HomePageContent extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           _buildHorizontalScrollGrid(
+            context: context,
             title: 'Daftar Alat',
             items: [
               {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
               {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
-              {'title': 'Kabel HDMI', 'image': 'images/kabel_hdmi.jpg'},
             ],
+            isEquipment: true,
           ),
           _buildHorizontalScrollGrid(
+            context: context,
             title: 'Daftar Ruangan',
             items: [
               {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg'},
               {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg'},
-              {'title': 'Laboratorium A3', 'image': 'images/lab_a3.jpg'},
             ],
+            isEquipment: false,
           ),
         ],
       ),
@@ -219,8 +224,12 @@ class HomePageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildHorizontalScrollGrid(
-      {required String title, required List<Map<String, String>> items}) {
+  Widget _buildHorizontalScrollGrid({
+    required BuildContext context,
+    required String title,
+    required List<Map<String, String>> items,
+    required bool isEquipment,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -238,7 +247,7 @@ class HomePageContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             itemCount: items.length,
             itemBuilder: (context, index) {
-              return _gridItem(items[index]);
+              return _gridItem(context, items[index], isEquipment);
             },
           ),
         ),
@@ -246,28 +255,40 @@ class HomePageContent extends StatelessWidget {
     );
   }
 
-  Widget _gridItem(Map<String, String> item) {
-    return Container(
-      width: 160,
-      margin: const EdgeInsets.only(right: 10),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              item['image']!,
-              height: 80,
-              width: 80,
-            ),
-            const SizedBox(height: 10),
-            Text(
-              item['title']!,
-              style: const TextStyle(fontSize: 16),
-            ),
-          ],
+  Widget _gridItem(BuildContext context, Map<String, String> item, bool isEquipment) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => isEquipment
+                ? DetailAlatPage(tool: item)
+                : DetailRuanganPage(room: item),
+          ),
+        );
+      },
+      child: Container(
+        width: 160,
+        margin: const EdgeInsets.only(right: 10),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                item['image']!,
+                height: 80,
+                width: 80,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                item['title']!,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
         ),
       ),
     );
