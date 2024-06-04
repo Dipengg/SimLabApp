@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:peminjaman_lab/admin/edit_ruangan.dart';
+import 'package:peminjaman_lab/admin/formulir_ruangan.dart';
 
 class KelolaRuanganPage extends StatelessWidget {
   const KelolaRuanganPage({super.key});
@@ -17,13 +19,16 @@ class KelolaRuanganPage extends StatelessWidget {
           children: [
             _buildSearchBar(),
             const SizedBox(height: 20),
-            _buildRoomGrid(),
+            _buildRoomGrid(context),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your onPressed code here
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const FormulirRuanganPage()),
+          );
         },
         backgroundColor: Colors.green,
         child: const Icon(Icons.add),
@@ -56,7 +61,7 @@ class KelolaRuanganPage extends StatelessWidget {
     );
   }
 
-  Widget _buildRoomGrid() {
+  Widget _buildRoomGrid(BuildContext context) {
     final rooms = [
       {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg'},
       {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg'},
@@ -74,7 +79,17 @@ class KelolaRuanganPage extends StatelessWidget {
           childAspectRatio: 1,
         ),
         itemBuilder: (context, index) {
-          return _gridItem(rooms[index]);
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditRuanganPage(room: rooms[index], ruanganName: '',),
+                ),
+              );
+            },
+            child: _gridItem(rooms[index]),
+          );
         },
       ),
     );

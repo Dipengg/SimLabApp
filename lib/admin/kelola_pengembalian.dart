@@ -1,4 +1,8 @@
+// ignore_for_file: duplicate_import
+
 import 'package:flutter/material.dart';
+import 'package:peminjaman_lab/admin/detail_pengembalian.dart';
+import 'detail_pengembalian.dart'; // Import the detail page
 
 class KelolaPengembalianPage extends StatelessWidget {
   const KelolaPengembalianPage({super.key});
@@ -67,13 +71,13 @@ class KelolaPengembalianPage extends StatelessWidget {
       child: ListView.builder(
         itemCount: returns.length,
         itemBuilder: (context, index) {
-          return _returnItem(returns[index]);
+          return _returnItem(context, returns[index]);
         },
       ),
     );
   }
 
-  Widget _returnItem(Map<String, String> item) {
+  Widget _returnItem(BuildContext context, Map<String, String> item) {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: Colors.green,
@@ -84,6 +88,12 @@ class KelolaPengembalianPage extends StatelessWidget {
       trailing: item['title'] == 'Pengembalian 3'
           ? const Icon(Icons.circle, color: Colors.green, size: 12)
           : null,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DetailPengembalianPage(item: item)),
+        );
+      },
     );
   }
 }

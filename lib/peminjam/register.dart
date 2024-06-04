@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peminjaman_lab/admin/adminregister.dart';
+import 'package:peminjaman_lab/admin/registrasi_admin.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

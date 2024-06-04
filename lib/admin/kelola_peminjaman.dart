@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peminjaman_lab/admin/detail_peminjaman.dart';
 
 class KelolaPeminjamanPage extends StatelessWidget {
   const KelolaPeminjamanPage({super.key});
@@ -22,7 +23,7 @@ class KelolaPeminjamanPage extends StatelessWidget {
               style: TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 20),
-            _buildLoanList(),
+            _buildLoanList(context),
           ],
         ),
       ),
@@ -54,7 +55,7 @@ class KelolaPeminjamanPage extends StatelessWidget {
     );
   }
 
-  Widget _buildLoanList() {
+  Widget _buildLoanList(BuildContext context) {
     final loans = [
       {'title': 'Peminjaman 1', 'name': 'Rayyan Ali Bahasyim'},
       {'title': 'Peminjaman 2', 'name': 'Louis Diaz Sanjaya'},
@@ -67,13 +68,13 @@ class KelolaPeminjamanPage extends StatelessWidget {
       child: ListView.builder(
         itemCount: loans.length,
         itemBuilder: (context, index) {
-          return _loanItem(loans[index]);
+          return _loanItem(context, loans[index]);
         },
       ),
     );
   }
 
-  Widget _loanItem(Map<String, String> loan) {
+  Widget _loanItem(BuildContext context, Map<String, String> loan) {
     return ListTile(
       leading: const CircleAvatar(
         backgroundColor: Colors.green,
@@ -84,6 +85,17 @@ class KelolaPeminjamanPage extends StatelessWidget {
       trailing: loan['title'] == 'Peminjaman 3'
           ? const Icon(Icons.circle, color: Colors.green, size: 12)
           : null,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailPeminjamanPage(
+              title: loan['title']!,
+              name: loan['name']!,
+            ),
+          ),
+        );
+      },
     );
   }
 }

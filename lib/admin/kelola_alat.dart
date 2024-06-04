@@ -1,4 +1,9 @@
+// ignore_for_file: duplicate_import
+
 import 'package:flutter/material.dart';
+import 'package:peminjaman_lab/admin/edit_alat.dart';
+import 'package:peminjaman_lab/admin/formulir_alat.dart';
+import 'edit_alat.dart'; // Import the edit page
 
 class KelolaAlatPage extends StatelessWidget {
   const KelolaAlatPage({super.key});
@@ -23,7 +28,10 @@ class KelolaAlatPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your onPressed code here
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const FormAlatPage()),
+          );
         },
         backgroundColor: Colors.green,
         child: const Icon(Icons.add),
@@ -36,7 +44,7 @@ class KelolaAlatPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
@@ -61,7 +69,7 @@ class KelolaAlatPage extends StatelessWidget {
       {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
       {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
       {'title': 'Power Supply', 'image': 'images/power_supply.jpg'},
-      {'title': 'RAM', 'image': 'images/ram.jpg'},
+      {'title': 'RAM', 'image': 'images/RAM.jpg'},
     ];
 
     return Expanded(
@@ -74,31 +82,52 @@ class KelolaAlatPage extends StatelessWidget {
           childAspectRatio: 1,
         ),
         itemBuilder: (context, index) {
-          return _gridItem(items[index]);
+          return _gridItem(context, items[index]);
         },
       ),
     );
   }
 
-  Widget _gridItem(Map<String, String> item) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            item['image']!,
-            height: 80,
-            width: 80,
+  Widget _gridItem(BuildContext context, Map<String, String> item) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => EditAlatPage(item: item, alatName: '',)),
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
-          const SizedBox(height: 10),
-          Text(
-            item['title']!,
-            style: const TextStyle(fontSize: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                item['image']!,
+                height: 80,
+                width: 80,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                item['title']!,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

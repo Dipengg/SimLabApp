@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peminjaman_lab/admin/adminhomepage.dart';
+import 'package:peminjaman_lab/admin/homepage.dart';
 import 'package:peminjaman_lab/peminjam/register.dart';
 import 'package:peminjaman_lab/peminjam/homepage.dart';
 
