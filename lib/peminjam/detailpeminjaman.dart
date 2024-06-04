@@ -11,7 +11,7 @@ class DetailPeminjamanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detail Peminjaman'),
+        title: const Text('Detail Peminjaman', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,

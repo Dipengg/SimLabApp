@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peminjaman_lab/peminjam/cart.dart';
 
 class DetailRuanganPage extends StatelessWidget {
   final Map<String, String> room;
@@ -9,7 +10,7 @@ class DetailRuanganPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.white,
         title: const Text('Detail Ruangan', style: TextStyle(color: Colors.black)),
         centerTitle: true,
         leading: IconButton(
@@ -22,7 +23,12 @@ class DetailRuanganPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.asset(room['image']!),
+            Image.asset(
+              room['image']!,
+              fit: BoxFit.cover,
+              height: 200,
+              width: double.infinity,
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -37,9 +43,27 @@ class DetailRuanganPage extends StatelessWidget {
                   const Text('Lokasi:', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(room['location']!),
                   const SizedBox(height: 10),
-                  const Text('Operation:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('Operasi:', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(room['operation']!),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CartPage(),
+                    ),
+                  );
+                },
+                child: const Text('Tambah ke keranjang', style: TextStyle(color: Colors.white)),
               ),
             ),
           ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peminjaman_lab/peminjam/cart.dart';
 
 class DetailAlatPage extends StatelessWidget {
   final Map<String, String> tool;
@@ -9,7 +10,7 @@ class DetailAlatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.white,
         title: const Text('Detail Alat', style: TextStyle(color: Colors.black)),
         centerTitle: true,
         leading: IconButton(
@@ -22,7 +23,12 @@ class DetailAlatPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.asset(tool['image']!),
+            Image.asset(
+              tool['image']!,
+              fit: BoxFit.cover,
+              height: 200,
+              width: double.infinity,
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -31,21 +37,33 @@ class DetailAlatPage extends StatelessWidget {
                   const Text('Nama Alat:', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(tool['name']!),
                   const SizedBox(height: 10),
-                  const Text('Keycaps:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const Text('OEM Profile (82 Keycaps)'),
-                  const SizedBox(height: 10),
-                  const Text('Switch:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const Text('Red Switch'),
-                  const SizedBox(height: 10),
-                  const Text('Connection:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const Text('USB Type-C, Bluetooth'),
-                  const SizedBox(height: 10),
-                  const Text('Size:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const Text('75% Layout'),
-                  const SizedBox(height: 10),
                   const Text('Jumlah Yang Tersedia:', style: TextStyle(fontWeight: FontWeight.bold)),
                   const Text('24 Unit'),
+                  const SizedBox(height: 10),
+                  const Text('Kondisi:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('Cukup'),
+                  const SizedBox(height: 10),
+                  const Text('Status:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('Tersedia'),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CartPage(),
+                    ),
+                  );
+                },
+                child: const Text('Tambah ke keranjang', style: TextStyle(color: Colors.white)),
               ),
             ),
           ],

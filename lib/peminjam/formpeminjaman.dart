@@ -16,8 +16,15 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Form Peminjaman'),
-        backgroundColor: Colors.green,
+        title: const Text('Form Peminjaman', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -26,8 +33,8 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildDetailSection('Identitas Peminjam', 'Roila Rachipan\n6701220000'),
-              _buildDetailSection('Kategori', 'Alat'),
-              _buildDetailSection('Detail Peminjaman', '• Keyboard\n• Proyektor\n• Kabel HDMI'),
+              _buildDetailSection('Kategori', '-'),
+              _buildDetailSection('Detail Peminjaman', '•'),
               const SizedBox(height: 20),
               _buildDateField('Tanggal Peminjaman', _tanggalPeminjaman, (selectedDate) {
                 setState(() {

@@ -112,7 +112,7 @@ class HomePageContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Halo Alfiano!',
+                  'Halo Roila!',
                   style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -129,25 +129,38 @@ class HomePageContent extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          _buildHorizontalScrollGrid(
+          _buildCategoryScrollSection(
             context: context,
             title: 'Daftar Alat',
             items: [
               {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
               {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
               {'title': 'Mouse', 'image': 'images/mouse.jpg'},
+              {'title': 'Printer', 'image': 'images/printer.jpg'},
+              {'title': 'Kabel LAN', 'image': 'images/kabel_lan.jpg'},
             ],
-            isEquipment: true,
+            navigateTo: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const DaftarAlatPage()),
+              );
+            },
           ),
-          _buildHorizontalScrollGrid(
+          _buildCategoryScrollSection(
             context: context,
             title: 'Daftar Ruangan',
             items: [
               {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg'},
               {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg'},
-              {'title': 'Laboratorium B1', 'image': 'images/lab_a3.jpg'},
+              {'title': 'Laboratorium A3', 'image': 'images/lab_a3.jpg'},
+              {'title': 'Laboratorium A4', 'image': 'images/lab_a4.jpg'},
             ],
-            isEquipment: false,
+            navigateTo: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const DaftarRuanganPage()),
+              );
+            },
           ),
         ],
       ),
@@ -224,20 +237,36 @@ class HomePageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildHorizontalScrollGrid({
+  Widget _buildCategoryScrollSection({
     required BuildContext context,
     required String title,
     required List<Map<String, String>> items,
-    required bool isEquipment,
+    required VoidCallback navigateTo,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Text(
-            title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              GestureDetector(
+                onTap: navigateTo,
+                child: const Text(
+                  'Lihat Semua',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(
@@ -247,7 +276,7 @@ class HomePageContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             itemCount: items.length,
             itemBuilder: (context, index) {
-              return _gridItem(context, items[index], isEquipment);
+              return _horizontalGridItem(context, items[index]);
             },
           ),
         ),
@@ -255,26 +284,44 @@ class HomePageContent extends StatelessWidget {
     );
   }
 
-  Widget _gridItem(BuildContext context, Map<String, String> item, bool isEquipment) {
+  Widget _horizontalGridItem(BuildContext context, Map<String, String> item) {
     return Container(
       width: 160,
       margin: const EdgeInsets.only(right: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 3,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              item['image']!,
-              height: 80,
-              width: 80,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Image.asset(
+                item['image']!,
+                height: 100,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
             const SizedBox(height: 10),
-            Text(
-              item['title']!,
-              style: const TextStyle(fontSize: 16),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                item['title']!,
+                style: const TextStyle(fontSize: 16),
+              ),
             ),
           ],
         ),

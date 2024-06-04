@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peminjaman_lab/peminjam/detailruangan.dart';
+import 'package:peminjaman_lab/peminjam/cart.dart';
 
 class DaftarRuanganPage extends StatefulWidget {
   const DaftarRuanganPage({super.key});
@@ -83,8 +84,20 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: const Text('Daftar Ruangan', style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.white,
+        title: TextField(
+          controller: _searchController,
+          decoration: InputDecoration(
+            hintText: 'Cari',
+            prefixIcon: const Icon(Icons.search, color: Colors.black),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
+              borderSide: BorderSide.none,
+            ),
+            filled: true,
+            fillColor: Colors.grey[200],
+          ),
+        ),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
@@ -92,27 +105,30 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
             Navigator.of(context).pop();
           },
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.shopping_cart, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CartPage(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Cari',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-          ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text('Daftar Ruangan', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              child: Text(
+                'Daftar Ruangan',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           Expanded(
@@ -145,16 +161,41 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(15),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(
-                                room['image']!,
-                                height: 80,
-                                width: 80,
-                                fit: BoxFit.cover,
+                              Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.asset(
+                                      room['image']!,
+                                      height: 100,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  if (room['name'] == 'Laboratorium A5' || room['name'] == 'Laboratorium A6')
+                                    Container(
+                                      height: 100,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.5),
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: const Center(
+                                        child: Text(
+                                          'Tidak Tersedia',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
                               ),
                               const SizedBox(height: 10),
                               Text(

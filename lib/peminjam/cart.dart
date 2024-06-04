@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'formpeminjaman.dart';
+import 'package:peminjaman_lab/peminjam/formpeminjaman.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -40,7 +40,12 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Keranjang'),
+        title: const Text('Keranjang',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
         backgroundColor: Colors.green,
         centerTitle: true,
       ),
@@ -114,14 +119,14 @@ class _CartPageState extends State<CartPage> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                     side: const BorderSide(color: Colors.green),
                   ),
                 ),
                 child: const Text(
-                  'Peminjaman',
+                  'Tambah ke peminjaman',
                   style: TextStyle(fontSize: 16, color: Colors.green),
                 ),
               ),
