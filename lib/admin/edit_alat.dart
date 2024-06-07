@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class EditAlatPage extends StatelessWidget {
   final Map<String, String> item;
 
-  const EditAlatPage({super.key, required this.item, required String alatName});
+  const EditAlatPage({super.key, required this.item, required String alatName, required Map<String, String> alat});
 
   @override
   Widget build(BuildContext context) {

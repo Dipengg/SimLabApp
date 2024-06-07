@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:peminjaman_lab/peminjam/cart.dart';
+import 'package:peminjaman_lab/peminjam/detailalat.dart';
+import 'package:peminjaman_lab/peminjam/detailruangan.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -70,6 +72,24 @@ class _SearchPageState extends State<SearchPage> {
         builder: (context) => const CartPage(),
       ),
     );
+  }
+
+  void _showDetailPage(Map<String, dynamic> item) {
+    if (item['type'] == 'Alat') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailAlatPage(tool: item),
+        ),
+      );
+    } else if (item['type'] == 'Ruangan') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailRuanganPage(room: item),
+        ),
+      );
+    }
   }
 
   @override
@@ -145,14 +165,17 @@ class _SearchPageState extends State<SearchPage> {
                 : GridView.builder(
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 1.0,
+                      childAspectRatio: 0.75,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                     ),
                     padding: const EdgeInsets.all(10),
                     itemCount: _filteredItems.length,
                     itemBuilder: (context, index) {
-                      return _buildGridItem(_filteredItems[index]);
+                      return GestureDetector(
+                        onTap: () => _showDetailPage(_filteredItems[index]),
+                        child: _buildGridItem(_filteredItems[index]),
+                      );
                     },
                   ),
           ),
@@ -162,18 +185,9 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Widget _buildGridItem(Map<String, dynamic> item) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -182,7 +196,8 @@ class _SearchPageState extends State<SearchPage> {
           const SizedBox(height: 8),
           Text(
             item['name'],
-            style: const TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
@@ -247,10 +262,16 @@ class _FilterPageState extends State<FilterPage> {
                       _selectedFilterType = value;
                     });
                   },
+                  backgroundColor: Colors.grey[200],
+                  selectedColor: Colors.green,
+                  labelStyle: TextStyle(
+                    color: _selectedFilterType == value ? Colors.white : Colors.black,
+                  ),
                 );
               }).toList(),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height:
+                        20),
             const Text('Status', style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             Wrap(
@@ -264,6 +285,11 @@ class _FilterPageState extends State<FilterPage> {
                       _selectedFilterStatus = value;
                     });
                   },
+                  backgroundColor: Colors.grey[200],
+                  selectedColor: Colors.green,
+                  labelStyle: TextStyle(
+                    color: _selectedFilterStatus == value ? Colors.white : Colors.black,
+                  ),
                 );
               }).toList(),
             ),
@@ -272,7 +298,7 @@ class _FilterPageState extends State<FilterPage> {
             const SizedBox(height: 10),
             Wrap(
               spacing: 10,
-              children: ['Semua', 'Cukup', 'Baik'].map((String value) {
+              children: ['Semua', 'Baik', 'Cukup', 'Kurang'].map((String value) {
                 return ChoiceChip(
                   label: Text(value),
                   selected: _selectedFilterKondisi == value,
@@ -281,6 +307,11 @@ class _FilterPageState extends State<FilterPage> {
                       _selectedFilterKondisi = value;
                     });
                   },
+                  backgroundColor: Colors.grey[200],
+                  selectedColor: Colors.green,
+                  labelStyle: TextStyle(
+                    color: _selectedFilterKondisi == value ? Colors.white : Colors.black,
+                  ),
                 );
               }).toList(),
             ),
@@ -290,15 +321,27 @@ class _FilterPageState extends State<FilterPage> {
               children: [
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    setState(() {
+                      _selectedFilterType = 'Semua';
+                      _selectedFilterStatus = 'Semua';
+                      _selectedFilterKondisi = 'Semua';
+                    });
                   },
-                  child: const Text('Batal'),
+                  child: const Text('Reset'),
                 ),
+                const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
-                    widget.onApply(_selectedFilterType, _selectedFilterStatus, _selectedFilterKondisi);
-                    Navigator.of(context).pop();
+                    widget.onApply(
+                      _selectedFilterType,
+                      _selectedFilterStatus,
+                      _selectedFilterKondisi,
+                    );
+                    Navigator.pop(context);
                   },
+                  style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  ),
                   child: const Text('Terapkan'),
                 ),
               ],

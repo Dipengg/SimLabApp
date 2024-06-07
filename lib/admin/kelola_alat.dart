@@ -93,7 +93,7 @@ class KelolaAlatPage extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => EditAlatPage(item: item, alatName: '',)),
+          MaterialPageRoute(builder: (context) => EditAlatPage(item: item, alatName: '', alat: const {},)),
         );
       },
       child: Container(

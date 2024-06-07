@@ -61,8 +61,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const CartPage()),
+                      MaterialPageRoute(builder: (context) => const CartPage()),
                     );
                   },
                 ),
@@ -106,13 +105,19 @@ class HomePageContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            color: Colors.green,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.green, Colors.teal],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Halo Roila!',
+                  'Halo User!',
                   style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -129,15 +134,36 @@ class HomePageContent extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
+          _buildStatusDescription(),
           _buildCategoryScrollSection(
             context: context,
             title: 'Daftar Alat',
             items: [
-              {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
-              {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
-              {'title': 'Mouse', 'image': 'images/mouse.jpg'},
-              {'title': 'Printer', 'image': 'images/printer.jpg'},
-              {'title': 'Kabel LAN', 'image': 'images/kabel_lan.jpg'},
+              {
+                'title': 'Proyektor',
+                'image': 'images/proyektor.jpg',
+                'status': 'available'
+              },
+              {
+                'title': 'Keyboard',
+                'image': 'images/keyboard.jpg',
+                'status': 'low'
+              },
+              {
+                'title': 'Mouse',
+                'image': 'images/mouse.jpg',
+                'status': 'not available'
+              },
+              {
+                'title': 'Printer',
+                'image': 'images/printer.jpg',
+                'status': 'available'
+              },
+              {
+                'title': 'Kabel LAN',
+                'image': 'images/kabel_lan.jpg',
+                'status': 'low'
+              },
             ],
             navigateTo: () {
               Navigator.push(
@@ -150,15 +176,32 @@ class HomePageContent extends StatelessWidget {
             context: context,
             title: 'Daftar Ruangan',
             items: [
-              {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg'},
-              {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg'},
-              {'title': 'Laboratorium A3', 'image': 'images/lab_a3.jpg'},
-              {'title': 'Laboratorium A4', 'image': 'images/lab_a4.jpg'},
+              {
+                'title': 'Laboratorium A1',
+                'image': 'images/lab_a1.jpg',
+                'status': 'available'
+              },
+              {
+                'title': 'Laboratorium A2',
+                'image': 'images/lab_a2.jpg',
+                'status': 'low'
+              },
+              {
+                'title': 'Laboratorium A3',
+                'image': 'images/lab_a3.jpg',
+                'status': 'not available'
+              },
+              {
+                'title': 'Laboratorium A4',
+                'image': 'images/lab_a4.jpg',
+                'status': 'available'
+              },
             ],
             navigateTo: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const DaftarRuanganPage()),
+                MaterialPageRoute(
+                    builder: (context) => const DaftarRuanganPage()),
               );
             },
           ),
@@ -167,62 +210,105 @@ class HomePageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildButtonSection(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 3,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
+  Widget _buildStatusDescription() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _createButton(context, 'Peminjaman', Icons.library_books, () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const FormPeminjamanPage()),
-            );
-          }),
-          _createButton(context, 'Daftar Alat', Icons.build, () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const DaftarAlatPage()),
-            );
-          }),
-          _createButton(context, 'Daftar Ruangan', Icons.meeting_room, () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const DaftarRuanganPage()),
-            );
-          }),
+          _statusIndicator(Colors.green, 'Tersedia'),
+          _statusIndicator(Colors.red, 'Stok Sedikit'),
+          _statusIndicator(Colors.black, 'Tidak Tersedia'),
         ],
       ),
     );
   }
 
-  Widget _createButton(BuildContext context, String title, IconData icon,
+  Widget _statusIndicator(Color color, String label) {
+    return Row(
+      children: [
+        Container(
+          width: 15,
+          height: 15,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(width: 5),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildButtonSection(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _createIconButton(context, 'Peminjaman', Icons.library_books, () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FormPeminjamanPage(),
+                  ),
+                );
+              }),
+              const SizedBox(width: 16),  // Added spacing
+              _createIconButton(context, 'Daftar Alat', Icons.build, () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DaftarAlatPage()),
+                );
+              }),
+              const SizedBox(width: 16),  // Added spacing
+              _createIconButton(context, 'Daftar Ruangan', Icons.meeting_room,
+                  () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DaftarRuanganPage()),
+                );
+              }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _createIconButton(BuildContext context, String title, IconData icon,
       VoidCallback onPressed) {
     return Column(
       children: [
-        ElevatedButton(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            padding: const EdgeInsets.all(12),
+        IconButton(
+          icon: Tooltip(
+            message: title,
+            child: Icon(icon, color: Colors.green, size: 30),
           ),
-          child: Icon(icon, color: Colors.white, size: 30),
+          onPressed: onPressed,
         ),
         const SizedBox(height: 5),
         Text(
@@ -253,7 +339,8 @@ class HomePageContent extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               GestureDetector(
                 onTap: navigateTo,
@@ -285,9 +372,25 @@ class HomePageContent extends StatelessWidget {
   }
 
   Widget _horizontalGridItem(BuildContext context, Map<String, String> item) {
+    Color statusColor;
+
+    switch (item['status']) {
+      case 'available':
+        statusColor = Colors.green;
+        break;
+      case 'low':
+        statusColor = Colors.red;
+        break;
+      case 'not available':
+        statusColor = Colors.black;
+        break;
+      default:
+        statusColor = Colors.grey;
+    }
+
     return Container(
       width: 160,
-      margin: const EdgeInsets.only(right: 10),
+      margin: const EdgeInsets.only(right: 16), // Increased margin for spacing
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
@@ -298,33 +401,53 @@ class HomePageContent extends StatelessWidget {
             offset: const Offset(0, 3),
           ),
         ],
-      ),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+        image: DecorationImage(
+          image: AssetImage(item['image']!),
+          fit: BoxFit.cover,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ClipRRect(
+      ),
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              child: Image.asset(
-                item['image']!,
-                height: 100,
-                width: double.infinity,
-                fit: BoxFit.cover,
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Colors.black.withOpacity(0.6),
+                  Colors.transparent,
+                ],
               ),
             ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+          ),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: Container(
+              width: 15,
+              height: 15,
+              decoration: BoxDecoration(
+                color: statusColor,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Align(
+              alignment: Alignment.bottomLeft,
               child: Text(
                 item['title']!,
-                style: const TextStyle(fontSize: 16),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

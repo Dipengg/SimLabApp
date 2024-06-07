@@ -1,5 +1,3 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
 import 'package:peminjaman_lab/admin/kelola_peminjaman.dart';
 import 'package:peminjaman_lab/admin/kelola_alat.dart';
@@ -38,11 +36,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
           ? AppBar(
               backgroundColor: Colors.green,
               elevation: 0,
-              title: const Text('FIT-LAB',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white)),
+              title: const Text(
+                'FIT-LAB',
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
               centerTitle: true,
               actions: <Widget>[
                 IconButton(
@@ -77,8 +77,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
         showSelectedLabels: true,
         showUnselectedLabels: true,
         selectedLabelStyle: const TextStyle(fontSize: 12, color: Colors.green),
-        unselectedLabelStyle:
-            const TextStyle(fontSize: 12, color: Colors.grey),
+        unselectedLabelStyle: const TextStyle(fontSize: 12, color: Colors.grey),
       ),
     );
   }
@@ -123,21 +122,38 @@ class AdminHomePageContent extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          _buildHorizontalScrollGrid(
+          _buildCategoryScrollSection(
             context: context,
             title: 'Daftar Alat',
             items: [
-              {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
-              {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
+              {'title': 'Proyektor', 'image': 'images/proyektor.jpg', 'stok': '10'},
+              {'title': 'Keyboard', 'image': 'images/keyboard.jpg', 'stok': '15'},
+              {'title': 'Mouse', 'image': 'images/mouse.jpg'},
+              {'title': 'Printer', 'image': 'images/printer.jpg'},
+              {'title': 'Kabel LAN', 'image': 'images/kabel_lan.jpg'},
             ],
+            navigateTo: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const KelolaAlatPage()),
+              );
+            },
           ),
-          _buildHorizontalScrollGrid(
+          _buildCategoryScrollSection(
             context: context,
             title: 'Daftar Ruangan',
             items: [
-              {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg'},
-              {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg'},
+              {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg', 'kapasitas': '50 orang'},
+              {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg', 'kapasitas': '40 orang'},
+              {'title': 'Laboratorium A3', 'image': 'images/lab_a3.jpg'},
+              {'title': 'Laboratorium A4', 'image': 'images/lab_a4.jpg'},
             ],
+            navigateTo: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const KelolaRuanganPage()),
+              );
+            },
           ),
         ],
       ),
@@ -145,73 +161,71 @@ class AdminHomePageContent extends StatelessWidget {
   }
 
   Widget _buildButtonSection(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 3,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            _createButton
-            (context, 'Kelola Peminjaman', Icons.library_books, () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const KelolaPeminjamanPage()),
-              );
-            }),
-            _createButton(context, 'Kelola Alat', Icons.build, () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const KelolaAlatPage()),
-              );
-            }),
-            _createButton(context, 'Kelola Pengembalian', Icons.history, () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const KelolaPengembalianPage()),
-              );
-            }),
-            _createButton(context, 'Kelola Ruangan', Icons.meeting_room, () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const KelolaRuanganPage()),
-              );
-            }),
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
           ],
+        ),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              _createIconButton(context, 'Kelola Peminjaman', Icons.library_books, () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const KelolaPeminjamanPage(),
+                  ),
+                );
+              }),
+              _createIconButton(context, 'Kelola Alat', Icons.build, () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const KelolaAlatPage()),
+                );
+              }),
+              _createIconButton(context, 'Kelola Pengembalian', Icons.history, () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const KelolaPengembalianPage()),
+                );
+              }),
+              _createIconButton(context, 'Kelola Ruangan', Icons.meeting_room, () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const KelolaRuanganPage(),
+                  ),
+                );
+              }),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _createButton(BuildContext context, String title, IconData icon,
-      VoidCallback onPressed) {
+  Widget _createIconButton(BuildContext context, String title, IconData icon, VoidCallback onPressed) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         children: [
-          ElevatedButton(
-            onPressed: onPressed,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              padding: const EdgeInsets.all(12),
+          IconButton(
+            icon: Tooltip(
+              message: title,
+              child: Icon(icon, color: Colors.green, size: 30),
             ),
-            child: Icon(icon, color: Colors.white, size: 30),
+            onPressed: onPressed,
           ),
           const SizedBox(height: 5),
           Text(
@@ -227,19 +241,36 @@ class AdminHomePageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildHorizontalScrollGrid({
+  Widget _buildCategoryScrollSection({
     required BuildContext context,
     required String title,
     required List<Map<String, String>> items,
+    required VoidCallback navigateTo,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Text(
-            title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              GestureDetector(
+                onTap: navigateTo,
+                child: const Text(
+                  'Lihat Semua',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(
@@ -249,7 +280,7 @@ class AdminHomePageContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             itemCount: items.length,
             itemBuilder: (context, index) {
-              return _gridItem(context, items[index]);
+              return _horizontalGridItem(context, items[index]);
             },
           ),
         ),
@@ -257,10 +288,9 @@ class AdminHomePageContent extends StatelessWidget {
     );
   }
 
-  Widget _gridItem(BuildContext context, Map<String, String> item) {
+  Widget _horizontalGridItem(BuildContext context, Map<String, String> item) {
     return GestureDetector(
       onTap: () {
-        // Ensure data is not null
         if (item['title'] != null && item['image'] != null) {
           if (item['title']!.contains('Laboratorium')) {
             Navigator.push(
@@ -268,7 +298,7 @@ class AdminHomePageContent extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) => EditRuanganPage(
                   ruanganName: item['title']!,
-                  room: item, // Pass the actual room data here
+                  room: item,
                 ),
               ),
             );
@@ -278,81 +308,57 @@ class AdminHomePageContent extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) => EditAlatPage(
                   alatName: item['title']!,
-                  item: item, // Pass the actual alat data here
+                  alat: item, item: const {},
                 ),
               ),
             );
           }
-        } else {
-          // Handle null values or show an error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Data not available!'),
-            ),
-          );
         }
       },
       child: Container(
-        width: 160,
+        width: 150,
         margin: const EdgeInsets.only(right: 10),
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
         child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
           elevation: 3,
-          child: Stack(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                 child: Image.asset(
                   item['image']!,
-                  height: 140,
-                  width: 160,
+                  height: 100,
+                  width: 150,
                   fit: BoxFit.cover,
                 ),
               ),
-              Container(
-                height: 140,
-                width: 160,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.black.withOpacity(0.1),
-                      Colors.black.withOpacity(0.7)
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 10,
-                left: 10,
-                child: Text(
-                  item['title']!,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    shadows: [
-                      Shadow(
-                        blurRadius: 10.0,
-                        color: Colors.black,
-                        offset: Offset(2.0, 2.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item['title']!,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 4),
+                    if (item.containsKey('stok'))
+                      Text(
+                        'Stok: ${item['stok']}',
+                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                    if (item.containsKey('kapasitas'))
+                      Text(
+                        'Kapasitas: ${item['kapasitas']}',
+                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                  ],
                 ),
               ),
             ],
@@ -362,3 +368,4 @@ class AdminHomePageContent extends StatelessWidget {
     );
   }
 }
+

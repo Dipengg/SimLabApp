@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:peminjaman_lab/peminjam/cart.dart';
 
 class DetailAlatPage extends StatelessWidget {
-  final Map<String, String> tool;
+  final Map<String, dynamic> tool;
 
   const DetailAlatPage({super.key, required this.tool});
 

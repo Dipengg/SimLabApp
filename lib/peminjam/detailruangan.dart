@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:peminjaman_lab/peminjam/cart.dart';
 
 class DetailRuanganPage extends StatelessWidget {
-  final Map<String, String> room;
+  final Map<String, dynamic> room;
 
   const DetailRuanganPage({super.key, required this.room});
 
