@@ -9,7 +9,7 @@ import 'package:peminjaman_lab/admin/edit_alat.dart';
 import 'package:peminjaman_lab/admin/edit_ruangan.dart';
 
 class AdminHomePage extends StatefulWidget {
-  const AdminHomePage({super.key});
+  const AdminHomePage({Key? key}) : super(key: key);
 
   @override
   State<AdminHomePage> createState() => _AdminHomePageState();
@@ -83,8 +83,52 @@ class _AdminHomePageState extends State<AdminHomePage> {
   }
 }
 
-class AdminHomePageContent extends StatelessWidget {
-  const AdminHomePageContent({super.key});
+class AdminHomePageContent extends StatefulWidget {
+  const AdminHomePageContent({Key? key}) : super(key: key);
+
+  @override
+  _AdminHomePageContentState createState() => _AdminHomePageContentState();
+}
+
+class _AdminHomePageContentState extends State<AdminHomePageContent> {
+  final List<Map<String, String>> alatItems = [
+    {'title': 'Proyektor', 'image': 'images/proyektor.jpg', 'stok': '10'},
+    {'title': 'Keyboard', 'image': 'images/keyboard.jpg', 'stok': '15'},
+    {'title': 'Mouse', 'image': 'images/mouse.jpg'},
+    {'title': 'Printer', 'image': 'images/printer.jpg'},
+    {'title': 'Kabel LAN', 'image': 'images/kabel_lan.jpg'},
+  ];
+
+  final List<Map<String, String>> ruanganItems = [
+    {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg', 'kapasitas': '50 orang'},
+    {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg', 'kapasitas': '40 orang'},
+    {'title': 'Laboratorium A3', 'image': 'images/lab_a3.jpg'},
+    {'title': 'Laboratorium A4', 'image': 'images/lab_a4.jpg'},
+  ];
+
+  void deleteAlat(Map<String, String> deletedItem) {
+    setState(() {
+      alatItems.remove(deletedItem);
+    });
+  }
+
+  void deleteRuangan(Map<String, String> deletedItem) {
+    setState(() {
+      ruanganItems.remove(deletedItem);
+    });
+  }
+
+  void saveAlat(Map<String, String> updatedItem) {
+    setState(() {
+      // Implementasi penyimpanan alat yang diperbarui
+    });
+  }
+
+  void saveRuangan(Map<String, String> updatedItem) {
+    setState(() {
+      // Implementasi penyimpanan ruangan yang diperbarui
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,35 +169,28 @@ class AdminHomePageContent extends StatelessWidget {
           _buildCategoryScrollSection(
             context: context,
             title: 'Daftar Alat',
-            items: [
-              {'title': 'Proyektor', 'image': 'images/proyektor.jpg', 'stok': '10'},
-              {'title': 'Keyboard', 'image': 'images/keyboard.jpg', 'stok': '15'},
-              {'title': 'Mouse', 'image': 'images/mouse.jpg'},
-              {'title': 'Printer', 'image': 'images/printer.jpg'},
-              {'title': 'Kabel LAN', 'image': 'images/kabel_lan.jpg'},
-            ],
+            items: alatItems,
             navigateTo: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const KelolaAlatPage()),
               );
             },
+            onDelete: deleteAlat,
+            onSave: saveAlat,
           ),
           _buildCategoryScrollSection(
             context: context,
             title: 'Daftar Ruangan',
-            items: [
-              {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg', 'kapasitas': '50 orang'},
-              {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg', 'kapasitas': '40 orang'},
-              {'title': 'Laboratorium A3', 'image': 'images/lab_a3.jpg'},
-              {'title': 'Laboratorium A4', 'image': 'images/lab_a4.jpg'},
-            ],
+            items: ruanganItems,
             navigateTo: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const KelolaRuanganPage()),
               );
             },
+            onDelete: deleteRuangan,
+            onSave: saveRuangan,
           ),
         ],
       ),
@@ -246,6 +283,8 @@ class AdminHomePageContent extends StatelessWidget {
     required String title,
     required List<Map<String, String>> items,
     required VoidCallback navigateTo,
+    required Function(Map<String, String>) onDelete,
+    required Function(Map<String, String>) onSave,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -280,7 +319,7 @@ class AdminHomePageContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             itemCount: items.length,
             itemBuilder: (context, index) {
-              return _horizontalGridItem(context, items[index]);
+              return _horizontalGridItem(context, items[index], onDelete, onSave);
             },
           ),
         ),
@@ -288,7 +327,7 @@ class AdminHomePageContent extends StatelessWidget {
     );
   }
 
-  Widget _horizontalGridItem(BuildContext context, Map<String, String> item) {
+  Widget _horizontalGridItem(BuildContext context, Map<String, String> item, Function(Map<String, String>) onDelete, Function(Map<String, String>) onSave) {
     return GestureDetector(
       onTap: () {
         if (item['title'] != null && item['image'] != null) {
@@ -307,10 +346,18 @@ class AdminHomePageContent extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => EditAlatPage(
+                  item: item, // Pass the required item parameter
                   alatName: item['title']!,
-                  alat: item, item: const {},
-                ),
-              ),
+                  alat: item,
+                  onDelete: (Map<String, String> item) { // Adjust the function signature
+                  onDelete(item);
+                  },
+                  onSave: (Map<String, String> updatedItem) {
+                    onSave(updatedItem);
+    },
+  ),
+),
+
             );
           }
         }
@@ -368,4 +415,4 @@ class AdminHomePageContent extends StatelessWidget {
     );
   }
 }
-
+     

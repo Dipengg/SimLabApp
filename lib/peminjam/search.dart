@@ -99,7 +99,7 @@ class _SearchPageState extends State<SearchPage> {
         backgroundColor: Colors.green,
         title: Container(
           width: double.infinity,
-          height: 40,
+          height: 50,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(25),
@@ -116,7 +116,7 @@ class _SearchPageState extends State<SearchPage> {
             children: [
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Icon(Icons.search, color: Colors.black54),
+                child: Icon(Icons.search, color: Colors.black54, size: 28),
               ),
               Expanded(
                 child: TextField(
@@ -134,11 +134,11 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.filter_list, color: Colors.black54),
+                icon: const Icon(Icons.filter_list, color: Colors.black54, size: 28),
                 onPressed: _showFilterPage,
               ),
               IconButton(
-                icon: const Icon(Icons.shopping_cart, color: Colors.black54),
+                icon: const Icon(Icons.shopping_cart, color: Colors.black54, size: 28),
                 onPressed: _showCartPage,
               ),
             ],
@@ -148,7 +148,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Column(
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text('Rekomendasi Pencarian', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -189,15 +189,25 @@ class _SearchPageState extends State<SearchPage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
+      elevation: 3,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(item['image'], height: 80, width: 80),
+          Image.asset(item['image'], height: 100, width: 100, fit: BoxFit.cover),
           const SizedBox(height: 8),
           Text(
             item['name'],
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            item['status'],
+            style: TextStyle(
+              fontSize: 14,
+              color: item['status'] == 'Tersedia' ? Colors.green : Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),
@@ -220,7 +230,6 @@ class FilterPage extends StatefulWidget {
   });
 
   @override
-  // ignore: library_private_types_in_public_api
   _FilterPageState createState() => _FilterPageState();
 }
 
@@ -253,7 +262,7 @@ class _FilterPageState extends State<FilterPage> {
             const SizedBox(height: 10),
             Wrap(
               spacing: 10,
-              children: ['Semua', 'Alat', 'Ruangan'].map((String value) {
+                            children: ['Semua', 'Alat', 'Ruangan'].map((String value) {
                 return ChoiceChip(
                   label: Text(value),
                   selected: _selectedFilterType == value,
@@ -270,8 +279,7 @@ class _FilterPageState extends State<FilterPage> {
                 );
               }).toList(),
             ),
-            const SizedBox(height:
-                        20),
+            const SizedBox(height: 20),
             const Text('Status', style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             Wrap(
@@ -340,7 +348,7 @@ class _FilterPageState extends State<FilterPage> {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                    backgroundColor: Colors.green,
                   ),
                   child: const Text('Terapkan'),
                 ),
@@ -352,3 +360,4 @@ class _FilterPageState extends State<FilterPage> {
     );
   }
 }
+

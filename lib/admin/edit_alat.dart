@@ -1,9 +1,73 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 class EditAlatPage extends StatelessWidget {
   final Map<String, String> item;
+  final Function(Map<String, String>) onDelete;
+  final Function(Map<String, String>) onSave;
 
-  const EditAlatPage({super.key, required this.item, required String alatName, required Map<String, String> alat});
+  const EditAlatPage({
+    super.key,
+    required this.item,
+    required this.onDelete,
+    required this.onSave,
+    required String alatName,
+    required Map<String, String> alat,
+  });
+
+  void _showDeleteDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Validasi'),
+          content: Text('Apakah anda yakin ingin menghapus data alat ini?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Tidak'),
+            ),
+            TextButton(
+              onPressed: () {
+                onDelete(item);
+                Navigator.of(context).pop();
+                _showSuccessDialog(context, 'Sukses!', 'Data alat berhasil dihapus!');
+              },
+              child: Text('Yakin'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showSuccessDialog(BuildContext context, String title, String content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Oke'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showSnackbar(BuildContext context, String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +171,7 @@ class EditAlatPage extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Implement delete button functionality here
+                      _showDeleteDialog(context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
@@ -116,7 +180,8 @@ class EditAlatPage extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // Implement save button functionality here
+                      onSave(item);
+                      _showSnackbar(context, 'Pemabaruan berhasil disimpan');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,

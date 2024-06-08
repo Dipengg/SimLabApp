@@ -1,12 +1,34 @@
-// ignore_for_file: duplicate_import
-
 import 'package:flutter/material.dart';
 import 'package:peminjaman_lab/admin/edit_alat.dart';
 import 'package:peminjaman_lab/admin/formulir_alat.dart';
-import 'edit_alat.dart'; // Import the edit page
 
-class KelolaAlatPage extends StatelessWidget {
+class KelolaAlatPage extends StatefulWidget {
   const KelolaAlatPage({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _KelolaAlatPageState createState() => _KelolaAlatPageState();
+}
+
+class _KelolaAlatPageState extends State<KelolaAlatPage> {
+  List<Map<String, String>> alatItems = [
+    {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
+    {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
+    {'title': 'Power Supply', 'image': 'images/power_supply.jpg'},
+    {'title': 'RAM', 'image': 'images/RAM.jpg'},
+  ];
+
+  void deleteAlat(Map<String, String> deletedItem) {
+    setState(() {
+      alatItems.remove(deletedItem);
+    });
+  }
+
+  void saveAlat(Map<String, String> updatedItem) {
+    setState(() {
+      // Implementasi penyimpanan alat yang diperbarui
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,16 +87,9 @@ class KelolaAlatPage extends StatelessWidget {
   }
 
   Widget _buildGrid() {
-    final items = [
-      {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
-      {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
-      {'title': 'Power Supply', 'image': 'images/power_supply.jpg'},
-      {'title': 'RAM', 'image': 'images/RAM.jpg'},
-    ];
-
     return Expanded(
       child: GridView.builder(
-        itemCount: items.length,
+        itemCount: alatItems.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 10,
@@ -82,20 +97,27 @@ class KelolaAlatPage extends StatelessWidget {
           childAspectRatio: 1,
         ),
         itemBuilder: (context, index) {
-          return _gridItem(context, items[index]);
+          return _gridItem(context, alatItems[index]);
         },
       ),
     );
   }
 
   Widget _gridItem(BuildContext context, Map<String, String> item) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => EditAlatPage(item: item, alatName: '', alat: const {},)),
-        );
-      },
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EditAlatPage(
+            item: item,
+            alatName: item['title']!,  // Pass the alatName parameter
+            onDelete: deleteAlat,
+            onSave: saveAlat, alat: const {},
+          ),
+        ),
+      );
+    },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),

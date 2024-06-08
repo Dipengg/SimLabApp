@@ -20,78 +20,76 @@ class DetailPeminjamanPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Peminjaman 3',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'Nama Peminjam:\n$name',
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'NIM:\n6701220040',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Kategori Peminjaman:\nAlat',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Detail Peminjaman:',
-              style: TextStyle(fontSize: 16),
-            ),
-            const Text(
-              '- Proyektor\n- Keyboard\n- Kabel HDMI',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Tanggal Peminjaman:\nMinggu, 12 Mei 2024',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Tanggal Pengembalian:\nRabu, 15 Mei 2024',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Keperluan:\nPraktikum Mata Kuliah Dasar Pemrograman Perangkat Bergerak',
-              style: TextStyle(fontSize: 16),
-            ),
-            const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    _showRejectionDialog(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Peminjaman 3',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              _buildDetailItem('Nama Peminjam:', name),
+              _buildDetailItem('NIM:', '6701220040'),
+              _buildDetailItem('Kategori Peminjaman:', 'Alat'),
+              _buildDetailItem('Detail Peminjaman:', '- Proyektor\n- Keyboard\n- Kabel HDMI'),
+              _buildDetailItem('Tanggal Peminjaman:', 'Minggu, 12 Mei 2024'),
+              _buildDetailItem('Tanggal Pengembalian:', 'Rabu, 15 Mei 2024'),
+              _buildDetailItem('Keperluan:', 'Praktikum Mata Kuliah Dasar Pemrograman Perangkat Bergerak'),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      _showRejectionDialog(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      minimumSize: const Size(100, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text('Tolak', style: TextStyle(fontSize: 16)),
                   ),
-                  child: const Text('Tolak'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _showApprovalSuccessDialog(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                  ElevatedButton(
+                    onPressed: () {
+                      _showApprovalSuccessDialog(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      minimumSize: const Size(100, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text('Terima', style: TextStyle(fontSize: 16)),
                   ),
-                  child: const Text('Terima'),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildDetailItem(String title, String content) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            content,
+            style: const TextStyle(fontSize: 16),
+          ),
+        ],
       ),
     );
   }

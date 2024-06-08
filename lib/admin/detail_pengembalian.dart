@@ -21,67 +21,24 @@ class DetailPengembalianPage extends StatelessWidget {
             children: [
               Text(
                 item['title']!,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Nama Peminjam:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(item['name']!),
-              const SizedBox(height: 8),
-              const Text(
-                'NIM:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const Text('6701220040'), // You may replace this with the actual data
-              const SizedBox(height: 8),
-              const Text(
-                'Kategori Peminjaman:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const Text('Alat'),
-              const SizedBox(height: 8),
-              const Text(
-                'Detail Peminjaman:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const Text('• Proyektor\n• Keyboard\n• Kabel HDMI'),
-              const SizedBox(height: 8),
-              const Text(
-                'Tanggal Peminjaman:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const Text('Minggu, 12 Mei 2024'),
-              const SizedBox(height: 8),
-              const Text(
-                'Tanggal Pengembalian:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const Text('Rabu, 15 Mei 2024'),
-              const SizedBox(height: 8),
-              const Text(
-                'Keperluan:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const Text('Praktikum Mata Kuliah Dasar Pemrograman Perangkat Bergerak'),
-              const SizedBox(height: 8),
-              const Text(
-                'Status:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const Text('Belum dikembalikan'),
-              const SizedBox(height: 8),
-              const Text(
-                'Feedback:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const Text('Aplikasi FIT-LAB sangat membantu!'),
+              _buildDetailItem('Nama Peminjam:', item['name']!),
+              _buildDetailItem('NIM:', '6701220040'),
+              _buildDetailItem('Kategori Peminjaman:', 'Alat'),
+              _buildDetailItem('Detail Peminjaman:', '• Proyektor\n• Keyboard\n• Kabel HDMI'),
+              _buildDetailItem('Tanggal Peminjaman:', 'Minggu, 12 Mei 2024'),
+              _buildDetailItem('Tanggal Pengembalian:', 'Rabu, 15 Mei 2024'),
+              _buildDetailItem('Keperluan:', 'Praktikum Mata Kuliah Dasar Pemrograman Perangkat Bergerak'),
+              _buildDetailItem('Status:', 'Belum dikembalikan'),
+              _buildDetailItem('Feedback:', 'Aplikasi FIT-LAB sangat membantu!'),
               const SizedBox(height: 8),
               const Text(
                 'Laporan:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
+              const SizedBox(height: 8),
               const TextField(
                 decoration: InputDecoration(
                   hintText: 'Masukkan laporan sebagai admin',
@@ -89,7 +46,7 @@ class DetailPengembalianPage extends StatelessWidget {
                 ),
                 maxLines: 3,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -104,8 +61,12 @@ class DetailPengembalianPage extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
+                      minimumSize: const Size(150, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                    child: const Text('Peringatan'),
+                    child: const Text('Peringatan', style: TextStyle(fontSize: 16)),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -115,14 +76,37 @@ class DetailPengembalianPage extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
+                      minimumSize: const Size(150, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                    child: const Text('Konfirmasi'),
+                    child: const Text('Konfirmasi', style: TextStyle(fontSize: 16)),
                   ),
                 ],
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildDetailItem(String title, String content) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            content,
+            style: const TextStyle(fontSize: 16),
+          ),
+        ],
       ),
     );
   }

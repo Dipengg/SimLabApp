@@ -16,7 +16,10 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Form Peminjaman', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),),
+        title: const Text(
+          'Form Peminjaman',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+        ),
         backgroundColor: Colors.white,
         centerTitle: true,
         leading: IconButton(

@@ -6,6 +6,58 @@ class EditRuanganPage extends StatelessWidget {
 
   const EditRuanganPage({super.key, required this.room, required this.ruanganName});
 
+  void _showDeleteDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Validasi'),
+          content: Text('Apakah anda yakin ingin menghapus data ruangan ini?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Tidak'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _showSuccessDialog(context, 'Sukses!', 'Data ruangan berhasil dihapus!');
+              },
+              child: Text('Yakin'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showSuccessDialog(BuildContext context, String title, String content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Oke'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showSnackbar(BuildContext context, String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +85,7 @@ class EditRuanganPage extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      // Add your delete functionality here
+                      _showDeleteDialog(context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
@@ -46,7 +98,7 @@ class EditRuanganPage extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      // Add your save functionality here
+                      _showSnackbar(context, 'Pembaruan berhasil disimpan');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
