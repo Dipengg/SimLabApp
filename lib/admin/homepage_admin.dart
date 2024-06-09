@@ -10,7 +10,8 @@ class AdminHomePage extends StatefulWidget {
   const AdminHomePage({super.key});
 
   @override
-  State<AdminHomePage> createState() => _AdminHomePageState();
+  // ignore: library_private_types_in_public_api
+  _AdminHomePageState createState() => _AdminHomePageState();
 }
 
 class _AdminHomePageState extends State<AdminHomePage> {
@@ -37,9 +38,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
               title: const Text(
                 'SIMLAB',
                 style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
               centerTitle: true,
               actions: <Widget>[
@@ -49,7 +51,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const NotificationPage()),
+                        builder: (context) => const NotificationPage(),
+                      ),
                     );
                   },
                 ),
@@ -60,11 +63,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home, size: 30), label: 'Beranda'),
+            icon: Icon(Icons.home, size: 30),
+            label: 'Beranda',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.library_books, size: 30), label: 'Peminjaman'),
+            icon: Icon(Icons.library_books, size: 30),
+            label: 'Peminjaman',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person, size: 30), label: 'Profile'),
+            icon: Icon(Icons.person, size: 30),
+            label: 'Profile',
+          ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.green,
@@ -74,75 +83,33 @@ class _AdminHomePageState extends State<AdminHomePage> {
         backgroundColor: Colors.white,
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        selectedLabelStyle: const TextStyle(fontSize: 12, color: Colors.green),
-        unselectedLabelStyle: const TextStyle(fontSize: 12, color: Colors.grey),
+        selectedLabelStyle:
+            const TextStyle(fontSize: 12, color: Colors.green),
+        unselectedLabelStyle:
+            const TextStyle(fontSize: 12, color: Colors.grey),
       ),
     );
   }
 }
 
-class AdminHomePageContent extends StatefulWidget {
+class AdminHomePageContent extends StatelessWidget {
   const AdminHomePageContent({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _AdminHomePageContentState createState() => _AdminHomePageContentState();
-}
-
-class _AdminHomePageContentState extends State<AdminHomePageContent> {
-  final List<Map<String, String>> alatItems = [
-    {'title': 'Proyektor', 'image': 'images/proyektor.jpg', 'stok': '10'},
-    {'title': 'Keyboard', 'image': 'images/keyboard.jpg', 'stok': '15'},
-    {'title': 'Mouse', 'image': 'images/mouse.jpg'},
-    {'title': 'Printer', 'image': 'images/printer.jpg'},
-    {'title': 'Kabel LAN', 'image': 'images/kabel_lan.jpg'},
-  ];
-
-  final List<Map<String, String>> ruanganItems = [
-    {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg', 'kapasitas': '50 orang'},
-    {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg', 'kapasitas': '40 orang'},
-    {'title': 'Laboratorium A3', 'image': 'images/lab_a3.jpg'},
-    {'title': 'Laboratorium A4', 'image': 'images/lab_a4.jpg'},
-  ];
-
-  void deleteAlat(Map<String, String> deletedItem) {
-    setState(() {
-      alatItems.remove(deletedItem);
-    });
-  }
-
-  void deleteRuangan(Map<String, String> deletedItem) {
-    setState(() {
-      ruanganItems.remove(deletedItem);
-    });
-  }
-
-  void saveAlat(Map<String, String> updatedItem) {
-    setState(() {
-
-    });
-  }
-
-  void saveRuangan(Map<String, String> updatedItem) {
-    setState(() {
-
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.green, Colors.teal],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.green, Colors.teal],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
+          ),
+        ),
+        SingleChildScrollView(
+          child: Container(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,13 +117,14 @@ class _AdminHomePageContentState extends State<AdminHomePageContent> {
                 const Text(
                   'Halo Admin!',
                   style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
                 const SizedBox(height: 5),
                 const Text(
-                  'Halo Admin! Anda dapat melakukan pengelolaan untuk laboratorium. Kelola sekarang juga!',
+                  'Anda dapat melakukan pengelolaan untuk laboratorium. Kelola sekarang juga!',
                   style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
                 const SizedBox(height: 20),
@@ -173,38 +141,58 @@ class _AdminHomePageContentState extends State<AdminHomePageContent> {
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                       children: [
-                        _createIconButton(context, 'Kelola Peminjaman', Icons.library_books, () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const KelolaPeminjamanPage(),
-                            ),
-                          );
-                        }),
-                        _createIconButton(context, 'Kelola Pengembalian', Icons.history, () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const KelolaPengembalianPage(),
-                            ),
-                          );
-                        }),
-                        _createIconButton(context, 'Kelola Alat', Icons.build, () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const KelolaAlatPage(),
-                            ),
-                          );
-                        }),
-                        _createIconButton(context, 'Kelola Ruangan', Icons.meeting_room, () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const KelolaRuanganPage(),
-                            ),
-                          );
-                        }),
+                        _createIconButton(
+                          context,
+                          'Kelola Peminjaman',
+                          Icons.library_books,
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const KelolaPeminjamanPage(),
+                              ),
+                            );
+                          },
+                        ),
+                        _createIconButton(
+                          context,
+                          'Kelola Pengembalian',
+                          Icons.history,
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const KelolaPengembalianPage(),
+                              ),
+                            );
+                          },
+                        ),
+                        _createIconButton(
+                          context,
+                          'Kelola Alat',
+                          Icons.build,
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const KelolaAlatPage(),
+                              ),
+                            );
+                          },
+                        ),
+                        _createIconButton(
+                          context,
+                          'Kelola Ruangan',
+                          Icons.meeting_room,
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const KelolaRuanganPage(),
+                              ),
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -212,31 +200,45 @@ class _AdminHomePageContentState extends State<AdminHomePageContent> {
               ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  Widget _createIconButton(BuildContext context, String title, IconData icon, VoidCallback onPressed) {
-    return Column(
-      children: [
-        IconButton(
-          icon: Tooltip(
-            message: title,
-            child: Icon(icon, color: Colors.green, size: 50),
-          ),
-          onPressed: onPressed,
+  Widget _createIconButton(
+    BuildContext context,
+    String title,
+    IconData icon,
+    VoidCallback onPressed,
+  ) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.green[100],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: Tooltip(
+                message: title,
+                child: Icon(icon, color: Colors.teal, size: 50),
+              ),
+              onPressed: onPressed,
+            ),
+            const SizedBox(height: 5),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 5),
-        Text(
-          title,
-          style: const TextStyle(
-            color: Colors.green,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
