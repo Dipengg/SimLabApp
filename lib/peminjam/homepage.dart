@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:peminjaman_lab/peminjam/detailalat.dart';
+import 'package:peminjaman_lab/peminjam/detailruangan.dart';
 import 'package:peminjaman_lab/peminjam/formpeminjaman.dart';
 import 'package:peminjaman_lab/peminjam/search.dart';
 import 'package:peminjaman_lab/peminjam/history.dart';
@@ -117,7 +119,7 @@ class HomePageContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Halo Roila!',
+                  'Halo User!',
                   style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -276,16 +278,15 @@ class HomePageContent extends StatelessWidget {
                   ),
                 );
               }),
-              const SizedBox(width: 16),  // Added spacing
+              const SizedBox(width: 16),
               _createIconButton(context, 'Daftar Alat', Icons.build, () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const DaftarAlatPage()),
                 );
               }),
-              const SizedBox(width: 16),  // Added spacing
-              _createIconButton(context, 'Daftar Ruangan', Icons.meeting_room,
-                  () {
+              const SizedBox(width: 16),
+              _createIconButton(context, 'Daftar Ruangan', Icons.meeting_room, () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -299,8 +300,7 @@ class HomePageContent extends StatelessWidget {
     );
   }
 
-  Widget _createIconButton(BuildContext context, String title, IconData icon,
-      VoidCallback onPressed) {
+  Widget _createIconButton(BuildContext context, String title, IconData icon, VoidCallback onPressed) {
     return Column(
       children: [
         IconButton(
@@ -312,7 +312,7 @@ class HomePageContent extends StatelessWidget {
         ),
         const SizedBox(height: 5),
         Text(
-          title,
+                    title,
           style: const TextStyle(
             color: Colors.black,
             fontSize: 12,
@@ -339,8 +339,7 @@ class HomePageContent extends StatelessWidget {
             children: [
               Text(
                 title,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               GestureDetector(
                 onTap: navigateTo,
@@ -388,66 +387,85 @@ class HomePageContent extends StatelessWidget {
         statusColor = Colors.grey;
     }
 
-    return Container(
-      width: 160,
-      margin: const EdgeInsets.only(right: 16), // Increased margin for spacing
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 3,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
+    return GestureDetector(
+      onTap: () {
+        if (item['title']!.contains('Laboratorium')) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailRuanganPage(ruangan: item),
+            ),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailAlatPage(alat: item),
+            ),
+          );
+        }
+      },
+      child: Container(
+        width: 160,
+        margin: const EdgeInsets.only(right: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+          image: DecorationImage(
+            image: AssetImage(item['image']!),
+            fit: BoxFit.cover,
           ),
-        ],
-        image: DecorationImage(
-          image: AssetImage(item['image']!),
-          fit: BoxFit.cover,
         ),
-      ),
-      child: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Colors.black.withOpacity(0.6),
-                  Colors.transparent,
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 10,
-            right: 10,
-            child: Container(
-              width: 15,
-              height: 15,
+        child: Stack(
+          children: [
+            Container(
               decoration: BoxDecoration(
-                color: statusColor,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                item['title']!,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                borderRadius: BorderRadius.circular(15),
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.6),
+                    Colors.transparent,
+                  ],
                 ),
               ),
             ),
-          ),
-        ],
+            Positioned(
+              top: 10,
+              right: 10,
+              child: Container(
+                width: 15,
+                height: 15,
+                decoration: BoxDecoration(
+                  color: statusColor,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  item['title']!,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -11,48 +11,10 @@ class DaftarRuanganPage extends StatefulWidget {
 
 class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
   final List<Map<String, String>> rooms = [
-    {
-      'name': 'Laboratorium A1',
-      'image': 'images/lab_a1.jpg',
-      'capacity': '35 Orang',
-      'location': 'Lantai 2, Lorong Kanan, FIT',
-      'operation': 'Windows 11'
-    },
-    {
-      'name': 'Laboratorium A2',
-      'image': 'images/lab_a2.jpg',
-      'capacity': '30 Orang',
-      'location': 'Lantai 2, Lorong Kanan, FIT',
-      'operation': 'Windows 10'
-    },
-    {
-      'name': 'Laboratorium A3',
-      'image': 'images/lab_a3.jpg',
-      'capacity': '25 Orang',
-      'location': 'Lantai 2, Lorong Kiri, FIT',
-      'operation': 'Linux'
-    },
-    {
-      'name': 'Laboratorium A4',
-      'image': 'images/lab_a4.jpg',
-      'capacity': '40 Orang',
-      'location': 'Lantai 3, Lorong Kanan, FIT',
-      'operation': 'macOS'
-    },
-    {
-      'name': 'Laboratorium A5',
-      'image': 'images/lab_a5.jpg',
-      'capacity': '20 Orang',
-      'location': 'Lantai 3, Lorong Kiri, FIT',
-      'operation': 'Windows 7'
-    },
-    {
-      'name': 'Laboratorium A6',
-      'image': 'images/lab_a6.jpg',
-      'capacity': '50 Orang',
-      'location': 'Lantai 4, Lorong Kanan, FIT',
-      'operation': 'Windows 11'
-    },
+    {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg', 'status': 'available'},
+    {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg', 'status': 'low'},
+    {'title': 'Laboratorium A3', 'image': 'images/lab_a3.jpg', 'status': 'not available'},
+    {'title': 'Laboratorium A4', 'image': 'images/lab_a4.jpg', 'status': 'available'},
   ];
 
   List<Map<String, String>> _filteredRooms = [];
@@ -75,7 +37,7 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
   void _filterRooms() {
     setState(() {
       _filteredRooms = rooms.where((room) {
-        return room['name']!.toLowerCase().contains(_searchController.text.toLowerCase());
+        return room['title']!.toLowerCase().contains(_searchController.text.toLowerCase());
       }).toList();
     });
   }
@@ -134,7 +96,7 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
           Expanded(
             child: _filteredRooms.isEmpty
                 ? const Center(
-                    child: Text(
+                                      child: Text(
                       'Tidak ditemukan hasil untuk pencarian ini',
                       style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
@@ -155,7 +117,7 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailRuanganPage(room: room),
+                              builder: (context) => DetailRuanganPage(ruangan: room),
                             ),
                           );
                         },
@@ -177,7 +139,7 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
                                       fit: BoxFit.cover,
                                     ),
                                   ),
-                                  if (room['name'] == 'Laboratorium A5' || room['name'] == 'Laboratorium A6')
+                                  if (room['status'] == 'not available')
                                     Container(
                                       height: 100,
                                       width: double.infinity,
@@ -199,7 +161,7 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                room['name']!,
+                                room['title']!,
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -214,3 +176,4 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
     );
   }
 }
+

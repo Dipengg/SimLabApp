@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:peminjaman_lab/peminjam/cart.dart';
 
 class DetailRuanganPage extends StatelessWidget {
-  final Map<String, dynamic> room;
+  final Map<String, String> ruangan;
 
-  const DetailRuanganPage({super.key, required this.room});
+  const DetailRuanganPage({required this.ruangan, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class DetailRuanganPage extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(
-              room['image']!,
+              ruangan['image']!,
               fit: BoxFit.cover,
               height: 200,
               width: double.infinity,
@@ -35,16 +35,16 @@ class DetailRuanganPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Nama Ruangan:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(room['name']!),
+                  Text(ruangan['title']!),
                   const SizedBox(height: 10),
                   const Text('Kapasitas:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(room['capacity']!),
+                  const Text('30 Orang'),
                   const SizedBox(height: 10),
                   const Text('Lokasi:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(room['location']!),
+                  const Text('Gedung A, Lantai 2'),
                   const SizedBox(height: 10),
                   const Text('Operasi:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(room['operation']!),
+                  const Text('08:00 - 17:00'),
                 ],
               ),
             ),

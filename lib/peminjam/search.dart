@@ -11,7 +11,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final List<Map<String, dynamic>> _items = [
+  final List<Map<String, String>> _items = [
     {'name': 'Proyektor', 'image': 'images/proyektor.jpg', 'type': 'Alat', 'status': 'Tersedia', 'kondisi': 'Baik'},
     {'name': 'Keyboard', 'image': 'images/keyboard.jpg', 'type': 'Alat', 'status': 'Tidak tersedia', 'kondisi': 'Cukup'},
     {'name': 'Power Supply', 'image': 'images/power_supply.jpg', 'type': 'Alat', 'status': 'Tersedia', 'kondisi': 'Baik'},
@@ -20,7 +20,7 @@ class _SearchPageState extends State<SearchPage> {
     {'name': 'Laboratorium A2', 'image': 'images/lab_a2.jpg', 'type': 'Ruangan', 'status': 'Tidak tersedia', 'kondisi': 'Cukup'},
   ];
 
-  List<Map<String, dynamic>> _filteredItems = [];
+  List<Map<String, String>> _filteredItems = [];
   String _searchQuery = '';
   String _filterType = 'Semua';
   String _filterStatus = 'Semua';
@@ -35,11 +35,11 @@ class _SearchPageState extends State<SearchPage> {
   void _filterItems() {
     setState(() {
       _filteredItems = _items.where((item) {
-        final matchesSearchQuery = item['name'].toLowerCase().contains(_searchQuery.toLowerCase());
+        final matchesSearchQuery = item['name']?.toLowerCase().contains(_searchQuery.toLowerCase());
         final matchesType = _filterType == 'Semua' || item['type'] == _filterType;
         final matchesStatus = _filterStatus == 'Semua' || item['status'] == _filterStatus;
         final matchesKondisi = _filterKondisi == 'Semua' || item['kondisi'] == _filterKondisi;
-        return matchesSearchQuery && matchesType && matchesStatus && matchesKondisi;
+        return matchesSearchQuery! && matchesType && matchesStatus && matchesKondisi;
       }).toList();
     });
   }
@@ -74,19 +74,19 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  void _showDetailPage(Map<String, dynamic> item) {
+  void _showDetailPage(Map<String, String> item) {
     if (item['type'] == 'Alat') {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DetailAlatPage(tool: item),
+          builder: (context) => DetailAlatPage(alat: item),
         ),
       );
     } else if (item['type'] == 'Ruangan') {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DetailRuanganPage(room: item),
+          builder: (context) => DetailRuanganPage(ruangan: item),
         ),
       );
     }

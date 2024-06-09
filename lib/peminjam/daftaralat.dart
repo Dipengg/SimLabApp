@@ -11,12 +11,12 @@ class DaftarAlatPage extends StatefulWidget {
 
 class _DaftarAlatPageState extends State<DaftarAlatPage> {
   final List<Map<String, String>> tools = [
-    {'name': 'Proyektor', 'image': 'images/proyektor.jpg'},
-    {'name': 'Keyboard', 'image': 'images/keyboard.jpg'},
-    {'name': 'Power Supply', 'image': 'images/power_supply.jpg'},
-    {'name': 'RAM', 'image': 'images/RAM.jpg'},
-    {'name': 'Kabel HDMI', 'image': 'images/kabel_hdmi.jpg'},
-    {'name': 'Kabel Jack', 'image': 'images/kabel_jack.jpg'},
+    {'title': 'Proyektor', 'image': 'images/proyektor.jpg', 'status': 'available'},
+    {'title': 'Keyboard', 'image': 'images/keyboard.jpg', 'status': 'low'},
+    {'title': 'Power Supply', 'image': 'images/power_supply.jpg', 'status': 'available'},
+    {'title': 'RAM', 'image': 'images/RAM.jpg', 'status': 'available'},
+    {'title': 'Kabel HDMI', 'image': 'images/kabel_hdmi.jpg', 'status': 'not available'},
+    {'title': 'Kabel Jack', 'image': 'images/kabel_jack.jpg', 'status': 'not available'},
   ];
 
   List<Map<String, String>> _filteredTools = [];
@@ -39,7 +39,7 @@ class _DaftarAlatPageState extends State<DaftarAlatPage> {
   void _filterTools() {
     setState(() {
       _filteredTools = tools.where((tool) {
-        return tool['name']!.toLowerCase().contains(_searchController.text.toLowerCase());
+        return tool['title']!.toLowerCase().contains(_searchController.text.toLowerCase());
       }).toList();
     });
   }
@@ -93,7 +93,7 @@ class _DaftarAlatPageState extends State<DaftarAlatPage> {
                 'Daftar Alat',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-            ),
+                          ),
           ),
           Expanded(
             child: _filteredTools.isEmpty
@@ -119,7 +119,7 @@ class _DaftarAlatPageState extends State<DaftarAlatPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailAlatPage(tool: tool),
+                              builder: (context) => DetailAlatPage(alat: tool),
                             ),
                           );
                         },
@@ -141,7 +141,7 @@ class _DaftarAlatPageState extends State<DaftarAlatPage> {
                                       fit: BoxFit.cover,
                                     ),
                                   ),
-                                  if (tool['name'] == 'Kabel HDMI' || tool['name'] == 'Kabel Jack')
+                                  if (tool['status'] == 'not available')
                                     Container(
                                       height: 100,
                                       width: double.infinity,
@@ -163,7 +163,7 @@ class _DaftarAlatPageState extends State<DaftarAlatPage> {
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                tool['name']!,
+                                tool['title']!,
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ],
