@@ -5,12 +5,12 @@ class DetailPeminjamanPage extends StatelessWidget {
   final String name;
 
   const DetailPeminjamanPage({
-    super.key,
     required this.title,
     required this.name,
+    super.key,
   });
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -24,11 +24,11 @@ class DetailPeminjamanPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Peminjaman 3',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              Text(
+                title,
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               _buildDetailItem('Nama Peminjam:', name),
               _buildDetailItem('NIM:', '6701220040'),
               _buildDetailItem('Kategori Peminjaman:', 'Alat'),
@@ -95,7 +95,7 @@ class DetailPeminjamanPage extends StatelessWidget {
   }
 
   void _showRejectionDialog(BuildContext context) {
-    final TextEditingController _reasonController = TextEditingController();
+    final TextEditingController reasonController = TextEditingController();
 
     showDialog(
       context: context,
@@ -107,7 +107,7 @@ class DetailPeminjamanPage extends StatelessWidget {
             children: [
               const Text('Alasan:'),
               TextField(
-                controller: _reasonController,
+                controller: reasonController,
                 decoration: const InputDecoration(
                   hintText: 'Silahkan masukkan alasan penolakan',
                 ),

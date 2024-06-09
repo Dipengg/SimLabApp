@@ -54,7 +54,7 @@ class NotificationAdminPage extends StatelessWidget {
           ],
         ),
         onTap: () {
-          // Add your onTap code here
+
         },
       ),
     );

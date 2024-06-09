@@ -26,7 +26,7 @@ class _KelolaAlatPageState extends State<KelolaAlatPage> {
 
   void saveAlat(Map<String, String> updatedItem) {
     setState(() {
-      // Implementasi penyimpanan alat yang diperbarui
+
     });
   }
 
@@ -111,7 +111,7 @@ class _KelolaAlatPageState extends State<KelolaAlatPage> {
         MaterialPageRoute(
           builder: (context) => EditAlatPage(
             item: item,
-            alatName: item['title']!,  // Pass the alatName parameter
+            alatName: item['title']!,
             onDelete: deleteAlat,
             onSave: saveAlat, alat: const {},
           ),

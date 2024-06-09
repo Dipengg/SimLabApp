@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:peminjaman_lab/admin/kelola_peminjaman.dart';
-import 'package:peminjaman_lab/admin/kelola_alat.dart';
-import 'package:peminjaman_lab/admin/kelola_pengembalian.dart';
-import 'package:peminjaman_lab/admin/kelola_ruangan.dart';
+import 'package:peminjaman_lab/admin/kelolapeminjaman.dart';
+import 'package:peminjaman_lab/admin/kelolaalat.dart';
+import 'package:peminjaman_lab/admin/kelolapengembalian.dart';
+import 'package:peminjaman_lab/admin/kelolaruangan.dart';
 import 'package:peminjaman_lab/admin/notifikasi_admin.dart';
 import 'package:peminjaman_lab/admin/profile_admin.dart';
 import 'package:peminjaman_lab/admin/edit_alat.dart';
 import 'package:peminjaman_lab/admin/edit_ruangan.dart';
 
 class AdminHomePage extends StatefulWidget {
-  const AdminHomePage({Key? key}) : super(key: key);
+  const AdminHomePage({super.key});
 
   @override
   State<AdminHomePage> createState() => _AdminHomePageState();
@@ -20,7 +20,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
   final List<Widget> _pages = [
     const AdminHomePageContent(),
     const KelolaPeminjamanPage(),
-    const ProfilePage(),
+    const AdminProfilePage(),
   ];
 
   void _onItemTapped(int index) {
@@ -84,9 +84,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
 }
 
 class AdminHomePageContent extends StatefulWidget {
-  const AdminHomePageContent({Key? key}) : super(key: key);
+  const AdminHomePageContent({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AdminHomePageContentState createState() => _AdminHomePageContentState();
 }
 
@@ -120,13 +121,13 @@ class _AdminHomePageContentState extends State<AdminHomePageContent> {
 
   void saveAlat(Map<String, String> updatedItem) {
     setState(() {
-      // Implementasi penyimpanan alat yang diperbarui
+
     });
   }
 
   void saveRuangan(Map<String, String> updatedItem) {
     setState(() {
-      // Implementasi penyimpanan ruangan yang diperbarui
+
     });
   }
 
@@ -346,10 +347,10 @@ class _AdminHomePageContentState extends State<AdminHomePageContent> {
               context,
               MaterialPageRoute(
                 builder: (context) => EditAlatPage(
-                  item: item, // Pass the required item parameter
+                  item: item,
                   alatName: item['title']!,
                   alat: item,
-                  onDelete: (Map<String, String> item) { // Adjust the function signature
+                  onDelete: (Map<String, String> item) { 
                   onDelete(item);
                   },
                   onSave: (Map<String, String> updatedItem) {

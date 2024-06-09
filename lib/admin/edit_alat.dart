@@ -90,7 +90,7 @@ class EditAlatPage extends StatelessWidget {
               const SizedBox(height: 8),
               GestureDetector(
                 onTap: () {
-                  // Implement image upload functionality here
+
                 },
                 child: Container(
                   height: 150,
@@ -136,7 +136,7 @@ class EditAlatPage extends StatelessWidget {
                       value: 'Baik',
                       groupValue: 'Baik',
                       onChanged: (value) {
-                        // Handle condition change
+
                       },
                     ),
                   ),
@@ -146,7 +146,7 @@ class EditAlatPage extends StatelessWidget {
                       value: 'Cukup',
                       groupValue: 'Baik',
                       onChanged: (value) {
-                        // Handle condition change
+
                       },
                     ),
                   ),
@@ -162,7 +162,7 @@ class EditAlatPage extends StatelessWidget {
                 title: const Text('Tidak Tersedia / Tersedia'),
                 value: true,
                 onChanged: (value) {
-                  // Handle status change
+
                 },
               ),
               const SizedBox(height: 16),

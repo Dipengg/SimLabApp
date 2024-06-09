@@ -11,21 +11,21 @@ class EditRuanganPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Validasi'),
-          content: Text('Apakah anda yakin ingin menghapus data ruangan ini?'),
+          title: const Text('Validasi'),
+          content: const Text('Apakah anda yakin ingin menghapus data ruangan ini?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Tidak'),
+              child: const Text('Tidak'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 _showSuccessDialog(context, 'Sukses!', 'Data ruangan berhasil dihapus!');
               },
-              child: Text('Yakin'),
+              child: const Text('Yakin'),
             ),
           ],
         );
@@ -45,7 +45,7 @@ class EditRuanganPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Oke'),
+              child: const Text('Oke'),
             ),
           ],
         );
@@ -172,7 +172,7 @@ class EditRuanganPage extends StatelessWidget {
         Switch(
           value: false,
           onChanged: (value) {
-            // Handle switch change
+
           },
         ),
         const Text('Tidak Tersedia / Tersedia'),

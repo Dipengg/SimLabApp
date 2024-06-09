@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:peminjaman_lab/admin/detail_pengembalian.dart';
-import 'detail_pengembalian.dart'; // Import the detail page
+import 'detail_pengembalian.dart';
 
 class KelolaPengembalianPage extends StatelessWidget {
   const KelolaPengembalianPage({super.key});
@@ -79,9 +79,9 @@ class KelolaPengembalianPage extends StatelessWidget {
 
   Widget _returnItem(BuildContext context, Map<String, String> item) {
     return ListTile(
-      leading: CircleAvatar(
+      leading: const CircleAvatar(
         backgroundColor: Colors.green,
-        child: const Icon(Icons.assignment_return, color: Colors.white),
+        child: Icon(Icons.assignment_return, color: Colors.white),
       ),
       title: Text(item['title']!),
       subtitle: Text('Dikembalikan oleh: ${item['name']}'),

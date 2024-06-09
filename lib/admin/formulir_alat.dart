@@ -24,7 +24,7 @@ class FormAlatPage extends StatelessWidget {
               const SizedBox(height: 8),
               GestureDetector(
                 onTap: () {
-                  // Implement image upload functionality here
+
                 },
                 child: Container(
                   height: 150,
@@ -70,7 +70,7 @@ class FormAlatPage extends StatelessWidget {
                       value: 'Baik',
                       groupValue: 'Kondisi Alat',
                       onChanged: (value) {
-                        // Handle condition change
+
                       },
                     ),
                   ),
@@ -80,7 +80,7 @@ class FormAlatPage extends StatelessWidget {
                       value: 'Cukup',
                       groupValue: 'Kondisi Alat',
                       onChanged: (value) {
-                        // Handle condition change
+
                       },
                     ),
                   ),
@@ -96,14 +96,14 @@ class FormAlatPage extends StatelessWidget {
                 title: const Text('Tidak Tersedia / Tersedia'),
                 value: true,
                 onChanged: (value) {
-                  // Handle status change
+
                 },
               ),
               const SizedBox(height: 16),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    // Implement add button functionality here
+
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,

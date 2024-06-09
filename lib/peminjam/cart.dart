@@ -13,7 +13,6 @@ class _CartPageState extends State<CartPage> {
     {'name': 'Keyboard', 'category': 'Alat', 'status': 'Cukup', 'quantity': 1, 'image': 'images/keyboard.jpg'},
     {'name': 'Proyektor', 'category': 'Alat', 'status': 'Baik', 'quantity': 1, 'image': 'images/proyektor.jpg'},
     {'name': 'Kabel HDMI', 'category': 'Alat', 'status': 'Cukup', 'quantity': 1, 'image': 'images/kabel_hdmi.jpg'},
-    {'name': 'Laboratorium A1', 'category': 'Ruangan', 'status': 'Cukup', 'quantity': 1, 'image': 'images/lab_a1.jpg'},
   ];
 
   void _incrementQuantity(int index) {

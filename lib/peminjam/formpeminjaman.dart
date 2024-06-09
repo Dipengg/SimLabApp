@@ -36,8 +36,8 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildDetailSection('Identitas Peminjam', 'Roila Rachipan\n6701220000'),
-              _buildDetailSection('Kategori', '-'),
-              _buildDetailSection('Detail Peminjaman', '•'),
+              _buildDetailSection('Kategori', 'Alat'),
+              _buildDetailSection('Detail Peminjaman', '• Keyboard\n• Proyektor\n• Kabel HDMI'),
               const SizedBox(height: 20),
               _buildDateField('Tanggal Peminjaman', _tanggalPeminjaman, (selectedDate) {
                 setState(() {

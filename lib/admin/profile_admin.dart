@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:peminjaman_lab/login.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class AdminProfilePage extends StatefulWidget {
+  const AdminProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<AdminProfilePage> createState() => _AdminProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _AdminProfilePageState extends State<AdminProfilePage> {
   final String _profileName = 'Admin';
-  final String _profileNIM = '6701220000';
+  final String _profileNIP = '1234567890';
   final String _profileRole = 'Administrator';
-  String _profileImageUrl = 'https://cdn0-production-images-kly.akamaized.net/FnprvDLlZmT8bOutattTcr6sCIY=/1200x1200/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/4179938/original/068642100_1664862182-ariel_tatum_pfw.jpg';
+  String _profileImageUrl =
+      'https://cdn0-production-images-kly.akamaized.net/FnprvDLlZmT8bOutattTcr6sCIY=/1200x1200/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/4179938/original/068642100_1664862182-ariel_tatum_pfw.jpg';
 
   void _changeProfilePicture() {
     setState(() {
@@ -21,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _changePassword() {
-    // Implement password change functionality
+
   }
 
   void _signOut(BuildContext context) {
@@ -35,12 +36,14 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
+        title: const Text(
+          'Admin Profile',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: Colors.green,
         centerTitle: true,
       ),
@@ -51,9 +54,8 @@ class _ProfilePageState extends State<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
-                radius: 60,
+                radius: 50,
                 backgroundImage: NetworkImage(_profileImageUrl),
-                backgroundColor: Colors.transparent,
               ),
               const SizedBox(height: 10),
               ElevatedButton(
@@ -62,30 +64,49 @@ class _ProfilePageState extends State<ProfilePage> {
                   backgroundColor: Colors.green,
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  textStyle: const TextStyle(fontSize: 14),
+                  textStyle: const TextStyle(fontSize: 12),
                 ),
-                child: const Text('Ubah Foto Profil'),
+                child: const Text('Change Profile Picture'),
               ),
               const SizedBox(height: 30),
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildProfileItem('Nama', _profileName),
-                      const SizedBox(height: 15),
-                      _buildProfileItem('NIM', _profileNIM),
-                      const SizedBox(height: 15),
-                      _buildProfileItem('Peran', _profileRole),
-                    ],
-                  ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Name:',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      _profileName,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'NIP:',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      _profileNIP,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Role:',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      _profileRole,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 40),
@@ -95,11 +116,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   backgroundColor: Colors.green,
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   textStyle: const TextStyle(fontSize: 16),
                 ),
-                child: const Text('Ganti Kata Sandi'),
+                child: const Text('Change Password'),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -108,33 +129,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   backgroundColor: Colors.red,
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   textStyle: const TextStyle(fontSize: 16),
                 ),
-                child: const Text('Keluar'),
+                child: const Text('Sign Out'),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildProfileItem(String title, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '$title:',
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 5),
-        Text(
-          value,
-          style: const TextStyle(fontSize: 16),
-        ),
-      ],
     );
   }
 }

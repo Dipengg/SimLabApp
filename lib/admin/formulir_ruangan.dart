@@ -39,7 +39,7 @@ class FormulirRuanganPage extends StatelessWidget {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: () {
-                  // Implement save functionality here
+
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
@@ -66,7 +66,7 @@ class FormulirRuanganPage extends StatelessWidget {
         suffixIcon: IconButton(
           icon: const Icon(Icons.file_upload),
           onPressed: () {
-            // Implement upload functionality here
+ 
           },
         ),
       ),
@@ -94,7 +94,7 @@ class FormulirRuanganPage extends StatelessWidget {
             value: 'Baik',
             groupValue: 'Kondisi Alat',
             onChanged: (value) {
-              // Handle radio button change
+
             },
           ),
         ),
@@ -104,7 +104,7 @@ class FormulirRuanganPage extends StatelessWidget {
             value: 'Cukup',
             groupValue: 'Kondisi Alat',
             onChanged: (value) {
-              // Handle radio button change
+
             },
           ),
         ),
@@ -120,16 +120,10 @@ class FormulirRuanganPage extends StatelessWidget {
         Switch(
           value: false,
           onChanged: (value) {
-            // Handle switch change
+
           },
         ),
       ],
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: FormulirRuanganPage(),
-  ));
 }
