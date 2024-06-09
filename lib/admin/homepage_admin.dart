@@ -158,7 +158,7 @@ class _AdminHomePageContentState extends State<AdminHomePageContent> {
                 ),
                 const SizedBox(height: 5),
                 const Text(
-                  'Selamat datang di FIT-LAB! Kemudahan untuk meminjam.',
+                  'Selamat datang di SIMLAB! Kemudahan untuk meminjam.',
                   style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
                 const SizedBox(height: 20),
