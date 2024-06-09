@@ -37,7 +37,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               backgroundColor: Colors.green,
               elevation: 0,
               title: const Text(
-                'FIT-LAB',
+                'SIMLAB',
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,

@@ -1,14 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:peminjaman_lab/admin/detail_peminjaman.dart';
 
-class KelolaPeminjamanPage extends StatelessWidget {
+class KelolaPeminjamanPage extends StatefulWidget {
   const KelolaPeminjamanPage({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _KelolaPeminjamanPageState createState() => _KelolaPeminjamanPageState();
+}
+
+class _KelolaPeminjamanPageState extends State<KelolaPeminjamanPage> {
+  final TextEditingController _searchController = TextEditingController();
+  List<Map<String, String>> loans = [
+    {'title': 'Peminjaman 1', 'name': 'Rayyan Ali Bahasyim'},
+    {'title': 'Peminjaman 2', 'name': 'Louis Diaz Sanjaya'},
+    {'title': 'Peminjaman 3', 'name': 'Alfiano Fadhilah Rach.'},
+    {'title': 'Peminjaman 4', 'name': 'Ikhsan Fadli Nugraha'},
+    {'title': 'Peminjaman 5', 'name': 'Nadhif Arrafi Waltam'},
+  ];
+  List<Map<String, String>> filteredLoans = [];
+
+  @override
+  void initState() {
+    super.initState();
+    filteredLoans = loans;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kelola Peminjaman'),
+        title: const Text(
+          'Kelola Peminjaman',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: Colors.green,
         centerTitle: true,
       ),
@@ -19,11 +48,11 @@ class KelolaPeminjamanPage extends StatelessWidget {
             _buildSearchBar(),
             const SizedBox(height: 20),
             const Text(
-              'Catatan:\nPeminjaman yang belum di proses, akan muncul notifikasi disamping.',
+              'Catatan:\nPeminjaman yang belum diproses, akan muncul notifikasi disamping.',
               style: TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 20),
-            _buildLoanList(context),
+            _buildLoanList(),
           ],
         ),
       ),
@@ -45,8 +74,12 @@ class KelolaPeminjamanPage extends StatelessWidget {
           ),
         ],
       ),
-      child: const TextField(
-        decoration: InputDecoration(
+      child: TextField(
+        controller: _searchController,
+        onChanged: (value) {
+          _searchLoan(value);
+        },
+        decoration: const InputDecoration(
           hintText: 'Cari',
           border: InputBorder.none,
           icon: Icon(Icons.search),
@@ -55,26 +88,28 @@ class KelolaPeminjamanPage extends StatelessWidget {
     );
   }
 
-  Widget _buildLoanList(BuildContext context) {
-    final loans = [
-      {'title': 'Peminjaman 1', 'name': 'Rayyan Ali Bahasyim'},
-      {'title': 'Peminjaman 2', 'name': 'Louis Diaz Sanjaya'},
-      {'title': 'Peminjaman 3', 'name': 'Alfiano Fadhilah Rach.'},
-      {'title': 'Peminjaman 4', 'name': 'Ikhsan Fadli Nugraha'},
-      {'title': 'Peminjaman 5', 'name': 'Nadhif Arrafi Waltam'},
-    ];
+  void _searchLoan(String query) {
+    setState(() {
+      filteredLoans = loans
+          .where((loan) =>
+              loan['title']!.toLowerCase().contains(query.toLowerCase()) ||
+              loan['name']!.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
+  }
 
+  Widget _buildLoanList() {
     return Expanded(
       child: ListView.builder(
-        itemCount: loans.length,
+        itemCount: filteredLoans.length,
         itemBuilder: (context, index) {
-          return _loanItem(context, loans[index]);
+          return _loanItem(filteredLoans[index]);
         },
       ),
     );
   }
 
-  Widget _loanItem(BuildContext context, Map<String, String> loan) {
+  Widget _loanItem(Map<String, String> loan) {
     return ListTile(
       leading: const CircleAvatar(
         backgroundColor: Colors.green,
