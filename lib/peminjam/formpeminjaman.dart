@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class FormPeminjamanPage extends StatefulWidget {
   const FormPeminjamanPage({super.key});
@@ -11,6 +14,41 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
   DateTime? _tanggalPeminjaman;
   DateTime? _tanggalPengembalian;
   final TextEditingController _keperluanController = TextEditingController();
+  final TextEditingController _detailPeminjamanController =
+      TextEditingController();
+  final TextEditingController _statusPeminjamanController = TextEditingController();
+  String? _selectedKategori;
+  final List<String> _kategoriOptions = ['Alat', 'Ruangan'];
+
+  Future _simpan() async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://172.20.10.5/API_PEMINJAMAN/formulir_peminjaman.php'),
+        body: {
+          'kategori': _selectedKategori ?? '',
+          'detail_peminjaman': _detailPeminjamanController.text,
+          'tanggal_peminjaman': _tanggalPeminjaman?.toIso8601String() ?? '',
+          'tanggal_pengembalian': _tanggalPengembalian?.toIso8601String() ?? '',
+          'keperluan': _keperluanController.text,
+          'status_peminjaman': _statusPeminjamanController.text,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final snackBar = SnackBar(content: const Text('Peminjaman Sukses'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        return true;
+      } else {
+        final snackBar = SnackBar(content: const Text('Peminjaman Gagal'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        return false;
+      }
+    } catch (e) {
+      final snackBar = SnackBar(content: const Text('Terjadi kesalahan jaringan'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +56,8 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
       appBar: AppBar(
         title: const Text(
           'Form Peminjaman',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+          style: TextStyle(
+              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
@@ -35,23 +74,36 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildDetailSection('Identitas Peminjam', 'Roila Rachipan\n6701220000'),
-              _buildDetailSection('Kategori', 'Alat'),
-              _buildDetailSection('Detail Peminjaman', '• Keyboard\n• Proyektor\n• Kabel HDMI'),
+              _buildDetailSection(
+                  'Identitas Peminjam', 'Roila Rachipan\n6701220000'),
+              _buildDropdownField(
+                  'Kategori', _kategoriOptions, _selectedKategori, (value) {
+                setState(() {
+                  _selectedKategori = value;
+                });
+              }),
+              _buildTextField('Detail Peminjaman', 'Masukkan detail peminjaman',
+                  _detailPeminjamanController),
               const SizedBox(height: 20),
-              _buildDateField('Tanggal Peminjaman', _tanggalPeminjaman, (selectedDate) {
+              _buildDateField('Tanggal Peminjaman', _tanggalPeminjaman,
+                  (selectedDate) {
                 setState(() {
                   _tanggalPeminjaman = selectedDate;
                 });
               }),
               const SizedBox(height: 20),
-              _buildDateField('Tanggal Pengembalian', _tanggalPengembalian, (selectedDate) {
+              _buildDateField('Tanggal Pengembalian', _tanggalPengembalian,
+                  (selectedDate) {
                 setState(() {
                   _tanggalPengembalian = selectedDate;
                 });
               }),
               const SizedBox(height: 20),
-              _buildTextField('Keperluan', 'Masukkan keterangan keperluan', _keperluanController),
+              _buildTextField('Keperluan', 'Masukkan keterangan keperluan',
+                  _keperluanController),
+              const SizedBox(height: 20),
+              _buildTextField(
+                  'Status', 'Masukkan status peminjaman', _statusPeminjamanController),
               const SizedBox(height: 20),
               const Text(
                 'Dimohon mengisi form peminjaman dengan sebenar-benarnya. Dan harap perhatikan data yang anda inputkan.',
@@ -61,29 +113,25 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ValidationDialog(
-                          onConfirm: () {
-                            Navigator.of(context).pop();
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return CustomDialog(
-                                  title: 'Sukses!',
-                                  content: 'Data peminjaman anda telah terkirim!',
-                                  confirmText: 'Oke',
-                                  onConfirm: () {
-                                    Navigator.of(context).popUntil((route) => route.isFirst);
-                                  },
-                                );
-                              },
-                            );
-                          },
-                        );
-                      },
-                    );
+                    if (_selectedKategori != null &&
+                        _detailPeminjamanController.text.isNotEmpty &&
+                        _tanggalPeminjaman != null &&
+                        _tanggalPengembalian != null &&
+                        _keperluanController.text.isNotEmpty &&
+                        _statusPeminjamanController.text.isNotEmpty) {
+                      _simpan().then((value) {
+                        if (value) {
+                          final snackBar = SnackBar(content: const Text('Peminjaman Sukses'));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        } else {
+                          final snackBar = SnackBar(content: const Text('Peminjaman Gagal'));
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      });
+                    } else {
+                      final snackBar = SnackBar(content: const Text('Semua field harus diisi!'));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
@@ -125,7 +173,8 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
     );
   }
 
-  Widget _buildTextField(String label, String hint, TextEditingController controller) {
+  Widget _buildTextField(
+      String label, String hint, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextField(
@@ -141,7 +190,40 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
     );
   }
 
-  Widget _buildDateField(String label, DateTime? selectedDate, ValueChanged<DateTime?> onDateSelected) {
+  Widget _buildDropdownField(String label, List<String> options,
+      String? selectedOption, ValueChanged<String?> onChanged) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
+          DropdownButtonFormField<String>(
+            value: selectedOption,
+            onChanged: onChanged,
+            items: options.map((String option) {
+              return DropdownMenuItem<String>(
+                value: option,
+                child: Text(option),
+              );
+            }).toList(),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDateField(String label, DateTime? selectedDate,
+      ValueChanged<DateTime?> onDateSelected) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -172,7 +254,7 @@ class _FormPeminjamanPageState extends State<FormPeminjamanPage> {
               ),
             ),
             child: Text(
-              selectedDate == null
+                            selectedDate == null
                   ? 'Masukkan tanggal peminjaman'
                   : '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
               style: const TextStyle(fontSize: 16),
@@ -216,7 +298,8 @@ class ValidationDialog extends StatelessWidget {
           },
           style: TextButton.styleFrom(
             backgroundColor: Colors.red,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           ),
           child: const Text('Tidak', style: TextStyle(color: Colors.white)),
@@ -225,7 +308,8 @@ class ValidationDialog extends StatelessWidget {
           onPressed: onConfirm,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.green,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10)),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           ),
           child: const Text('Yakin'),
@@ -274,7 +358,8 @@ class CustomDialog extends StatelessWidget {
           onPressed: onConfirm,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.green,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10)),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           ),
           child: Text(confirmText),
@@ -283,3 +368,4 @@ class CustomDialog extends StatelessWidget {
     );
   }
 }
+
