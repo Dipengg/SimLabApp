@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:peminjaman_lab/admin/formulir_ruangan.dart';
 import 'package:peminjaman_lab/peminjam/detailruangan.dart';
 import 'package:peminjaman_lab/peminjam/cart.dart';
 
@@ -10,21 +13,35 @@ class DaftarRuanganPage extends StatefulWidget {
 }
 
 class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
-  final List<Map<String, String>> rooms = [
-    {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg', 'status': 'available'},
-    {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg', 'status': 'low'},
-    {'title': 'Laboratorium A3', 'image': 'images/lab_a3.jpg', 'status': 'not available'},
-    {'title': 'Laboratorium A4', 'image': 'images/lab_a4.jpg', 'status': 'available'},
-  ];
-
-  List<Map<String, String>> _filteredRooms = [];
+  List<Map<String, dynamic>> rooms = [];
+  List<Map<String, dynamic>> _filteredRooms = [];
   final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _filteredRooms = rooms;
+    _fetchRooms();
     _searchController.addListener(_filterRooms);
+  }
+
+  Future<void> _fetchRooms() async {
+    final response = await http.get(Uri.parse('http://172.20.10.5/API_SIMLAB/Ruangan/read_ruangan.php'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      setState(() {
+        rooms = data.map((item) => {
+          'title': item['nama_ruangan'],
+          'image': 'path/to/image.jpg', // Replace with actual image path
+          'status': item['status'].toString(),
+          'kapasitas': item['kapasitas'].toString(),
+        }).toList();
+        _filteredRooms = rooms;
+      });
+    } else {
+      // Handle error
+      print('Failed to fetch data');
+    }
   }
 
   @override
@@ -39,6 +56,13 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
       _filteredRooms = rooms.where((room) {
         return room['title']!.toLowerCase().contains(_searchController.text.toLowerCase());
       }).toList();
+    });
+  }
+
+  void _addNewRoom(Map<String, dynamic> room) {
+    setState(() {
+      rooms.add(room);
+      _filterRooms();
     });
   }
 
@@ -96,7 +120,7 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
           Expanded(
             child: _filteredRooms.isEmpty
                 ? const Center(
-                                      child: Text(
+                    child: Text(
                       'Tidak ditemukan hasil untuk pencarian ini',
                       style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
@@ -133,7 +157,7 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(15),
                                     child: Image.asset(
-                                      room['image']!,
+                                      room['image'],
                                       height: 100,
                                       width: double.infinity,
                                       fit: BoxFit.cover,
@@ -161,7 +185,7 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                room['title']!,
+                                room['title'],
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -173,7 +197,23 @@ class _DaftarRuanganPageState extends State<DaftarRuanganPage> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FormulirRuanganPage(
+                onSubmit: (Map<String, dynamic> newRuangan) {
+                  _addNewRoom(newRuangan);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
-

@@ -2,8 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:peminjaman_lab/admin/edit_ruangan.dart';
 import 'package:peminjaman_lab/admin/formulir_ruangan.dart';
 
-class KelolaRuanganPage extends StatelessWidget {
+class KelolaRuanganPage extends StatefulWidget {
   const KelolaRuanganPage({super.key});
+
+  @override
+  _KelolaRuanganPageState createState() => _KelolaRuanganPageState();
+}
+
+class _KelolaRuanganPageState extends State<KelolaRuanganPage> {
+  List<Map<String, dynamic>> roomItems = [
+    {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg'},
+    {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg'},
+    {'title': 'Laboratorium A3', 'image': 'images/lab_a3.jpg'},
+    {'title': 'Laboratorium A4', 'image': 'images/lab_a4.jpg'},
+  ];
+
+  void deleteRoom(Map<String, dynamic> deletedItem) {
+    setState(() {
+      roomItems.remove(deletedItem);
+    });
+  }
+
+  void saveRoom(Map<String, dynamic> updatedItem) {
+    setState(() {
+      // Implement save functionality here
+    });
+  }
+
+  void addRoom(Map<String, dynamic> newItem) {
+    setState(() {
+      roomItems.add(newItem);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +49,7 @@ class KelolaRuanganPage extends StatelessWidget {
           children: [
             _buildSearchBar(),
             const SizedBox(height: 20),
-            _buildRoomGrid(context),
+            _buildGrid(),
           ],
         ),
       ),
@@ -27,7 +57,14 @@ class KelolaRuanganPage extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const FormulirRuanganPage()),
+            MaterialPageRoute(
+              builder: (context) => FormulirRuanganPage(
+                onSubmit: (Map<String, dynamic> newRoom) {
+                  addRoom(newRoom);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
           );
         },
         backgroundColor: Colors.green,
@@ -61,17 +98,10 @@ class KelolaRuanganPage extends StatelessWidget {
     );
   }
 
-  Widget _buildRoomGrid(BuildContext context) {
-    final rooms = [
-      {'title': 'Laboratorium A1', 'image': 'images/lab_a1.jpg'},
-      {'title': 'Laboratorium A2', 'image': 'images/lab_a2.jpg'},
-      {'title': 'Laboratorium A3', 'image': 'images/lab_a3.jpg'},
-      {'title': 'Laboratorium A4', 'image': 'images/lab_a4.jpg'},
-    ];
-
+  Widget _buildGrid() {
     return Expanded(
       child: GridView.builder(
-        itemCount: rooms.length,
+        itemCount: roomItems.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 10,
@@ -79,41 +109,59 @@ class KelolaRuanganPage extends StatelessWidget {
           childAspectRatio: 1,
         ),
         itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditRuanganPage(room: rooms[index], ruanganName: '',),
-                ),
-              );
-            },
-            child: _gridItem(rooms[index]),
-          );
+          return _gridItem(context, roomItems[index]);
         },
       ),
     );
   }
 
-  Widget _gridItem(Map<String, String> room) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            room['image']!,
-            height: 80,
-            width: 80,
+  Widget _gridItem(BuildContext context, Map<String, dynamic> item) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EditRuanganPage(
+              room: item,
+              ruanganName: item['title'],
+              onDelete: deleteRoom,
+              onSave: saveRoom,
+            ),
           ),
-          const SizedBox(height: 10),
-          Text(
-            room['title']!,
-            style: const TextStyle(fontSize: 16),
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
-        ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                item['image'],
+                height: 80,
+                width: 80,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                item['title'],
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

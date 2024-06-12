@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:peminjaman_lab/peminjam/cart.dart';
 
 class DetailAlatPage extends StatelessWidget {
-  final Map<String, String> alat;
+  final Map<String, dynamic> alat;
 
   const DetailAlatPage({super.key, required this.alat});
 
@@ -24,7 +24,7 @@ class DetailAlatPage extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(
-              alat['image']!,
+              alat['image'] ?? 'path/to/default/image.jpg',
               fit: BoxFit.cover,
               height: 200,
               width: double.infinity,
@@ -35,16 +35,16 @@ class DetailAlatPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Nama Alat:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(alat['title']!),
+                  Text(alat['title'] ?? 'N/A'),
                   const SizedBox(height: 10),
                   const Text('Jumlah Yang Tersedia:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const Text('24 Unit'),
+                  Text(alat['jumlah'] ?? 'N/A'),
                   const SizedBox(height: 10),
                   const Text('Kondisi:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const Text('Cukup'),
+                  Text(alat['kondisi'] ?? 'N/A'),
                   const SizedBox(height: 10),
                   const Text('Status:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(alat['status']!),
+                  Text(alat['status'] ?? 'N/A'),
                 ],
               ),
             ),

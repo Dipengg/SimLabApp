@@ -1,9 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class DetailPengembalianPage extends StatelessWidget {
   final Map<String, String> item;
+  final TextEditingController reportController = TextEditingController();
 
-  const DetailPengembalianPage({super.key, required this.item});
+  DetailPengembalianPage({super.key, required this.item});
+
+  Future<void> submitReport(String report) async {
+    final response = await http.post(
+      Uri.parse('http://172.20.10.5/API_Pengembalian/laporan_pengembalian.php'),
+      body: {
+        'peminjaman_id': item['id']!,  // Include peminjaman_id
+        'laporan_kondisi': report,
+      },
+    );
+    if (response.statusCode == 200) {
+      print('Report submitted successfully');
+    } else {
+      print('Failed to submit report');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +56,9 @@ class DetailPengembalianPage extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               const SizedBox(height: 8),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: reportController,
+                decoration: const InputDecoration(
                   hintText: 'Masukkan laporan sebagai admin',
                   border: OutlineInputBorder(),
                 ),
@@ -71,7 +89,9 @@ class DetailPengembalianPage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       _showAlertDialog(context, 'Sukses!', 'Pengembalian berhasil! Peminjaman telah selesai!', () {
-                        Navigator.pop(context);
+                        submitReport(reportController.text).then((_) {
+                          Navigator.pop(context, reportController.text);
+                        });
                       });
                     },
                     style: ElevatedButton.styleFrom(

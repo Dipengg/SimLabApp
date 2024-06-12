@@ -6,27 +6,32 @@ class KelolaAlatPage extends StatefulWidget {
   const KelolaAlatPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _KelolaAlatPageState createState() => _KelolaAlatPageState();
 }
 
 class _KelolaAlatPageState extends State<KelolaAlatPage> {
-  List<Map<String, String>> alatItems = [
+  List<Map<String, dynamic>> alatItems = [
     {'title': 'Proyektor', 'image': 'images/proyektor.jpg'},
     {'title': 'Keyboard', 'image': 'images/keyboard.jpg'},
     {'title': 'Power Supply', 'image': 'images/power_supply.jpg'},
     {'title': 'RAM', 'image': 'images/RAM.jpg'},
   ];
 
-  void deleteAlat(Map<String, String> deletedItem) {
+  void deleteAlat(Map<String, dynamic> deletedItem) {
     setState(() {
       alatItems.remove(deletedItem);
     });
   }
 
-  void saveAlat(Map<String, String> updatedItem) {
+  void saveAlat(Map<String, dynamic> updatedItem) {
     setState(() {
+      // Implement save functionality here
+    });
+  }
 
+  void addAlat(Map<String, dynamic> newItem) {
+    setState(() {
+      alatItems.add(newItem);
     });
   }
 
@@ -52,7 +57,14 @@ class _KelolaAlatPageState extends State<KelolaAlatPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const FormAlatPage()),
+            MaterialPageRoute(
+              builder: (context) => FormAlatPage(
+                onSubmit: (Map<String, dynamic> newAlat) {
+                  addAlat(newAlat);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
           );
         },
         backgroundColor: Colors.green,
@@ -103,21 +115,21 @@ class _KelolaAlatPageState extends State<KelolaAlatPage> {
     );
   }
 
-  Widget _gridItem(BuildContext context, Map<String, String> item) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => EditAlatPage(
-            item: item,
-            alatName: item['title']!,
-            onDelete: deleteAlat,
-            onSave: saveAlat, alat: const {},
+  Widget _gridItem(BuildContext context, Map<String, dynamic> item) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EditAlatPage(
+              item: item,
+              alatName: item['title'],
+              onDelete: deleteAlat,
+              onSave: saveAlat,
+            ),
           ),
-        ),
-      );
-    },
+        );
+      },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
@@ -138,13 +150,13 @@ class _KelolaAlatPageState extends State<KelolaAlatPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                item['image']!,
+                item['image'],
                 height: 80,
                 width: 80,
               ),
               const SizedBox(height: 10),
               Text(
-                item['title']!,
+                item['title'],
                 style: const TextStyle(fontSize: 16),
               ),
             ],

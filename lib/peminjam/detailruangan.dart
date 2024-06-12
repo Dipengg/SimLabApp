@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:peminjaman_lab/peminjam/cart.dart';
 
 class DetailRuanganPage extends StatelessWidget {
-  final Map<String, String> ruangan;
+  final Map<String, dynamic> ruangan;
 
-  const DetailRuanganPage({required this.ruangan, super.key});
+  const DetailRuanganPage({super.key, required this.ruangan});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class DetailRuanganPage extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(
-              ruangan['image']!,
+              ruangan['image'] ?? 'path/to/default/image.jpg',
               fit: BoxFit.cover,
               height: 200,
               width: double.infinity,
@@ -35,16 +35,13 @@ class DetailRuanganPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Nama Ruangan:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(ruangan['title']!),
+                  Text(ruangan['title'] ?? 'N/A'),
                   const SizedBox(height: 10),
                   const Text('Kapasitas:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const Text('30 Orang'),
+                  Text(ruangan['kapasitas'] ?? 'N/A'),
                   const SizedBox(height: 10),
-                  const Text('Lokasi:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const Text('Gedung A, Lantai 2'),
-                  const SizedBox(height: 10),
-                  const Text('Operasi:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const Text('08:00 - 17:00'),
+                  const Text('Status:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(ruangan['status'] ?? 'N/A'),
                 ],
               ),
             ),

@@ -39,12 +39,13 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Keranjang',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
+        title: const Text(
+          'Keranjang',
+          style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
+        ),
         backgroundColor: Colors.green,
         centerTitle: true,
       ),
@@ -113,7 +114,7 @@ class _CartPageState extends State<CartPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const FormPeminjamanPage()),
+                    MaterialPageRoute(builder: (context) => FormPeminjamanPage(items: _items)),
                   );
                 },
                 style: ElevatedButton.styleFrom(

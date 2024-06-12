@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_print, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +14,7 @@ class DetailPeminjamanPage extends StatelessWidget {
 
   void _updateStatus(BuildContext context, String status) async {
     final response = await http.post(
-      Uri.parse('http://172.20.10.5/API_PEMINJAMAN/update_status_peminjaman.php'),
+      Uri.parse('http://172.20.10.5/API_SIMLAB/Peminjaman/update_status_peminjaman.php'),
       body: {
         'peminjaman_id': peminjaman['id'].toString(),
         'status_peminjaman': status,
@@ -23,27 +23,32 @@ class DetailPeminjamanPage extends StatelessWidget {
 
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
-    print('Sent data: peminjaman_id=${peminjaman['id'].toString()}, status_peminjaman=$status');
+    print(
+        'Sent data: peminjaman_id=${peminjaman['id'].toString()}, status_peminjaman=$status');
 
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       if (responseData['pesan'] == 'Sukses') {
-        final snackBar = SnackBar(content: Text('Status peminjaman diperbarui!'));
+        final snackBar =
+            SnackBar(content: Text('Status peminjaman diperbarui!'));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         Navigator.of(context).pop();
       } else {
-        final snackBar = SnackBar(content: Text('Gagal memperbarui status peminjaman: ${responseData['error']}'));
+        final snackBar = SnackBar(
+            content: Text(
+                'Gagal memperbarui status peminjaman: ${responseData['error']}'));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } else {
-      final snackBar = SnackBar(content: Text('Gagal memperbarui status peminjaman.'));
+      final snackBar =
+          SnackBar(content: Text('Gagal memperbarui status peminjaman.'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
   void _deletePeminjaman(BuildContext context) async {
     final response = await http.post(
-      Uri.parse('http://192.168.18.182/API_PEMINJAMAN/delete_peminjaman.php'),
+      Uri.parse('http://192.168.18.182/API_SIMLAB/Peminjaman/delete_peminjaman.php'),
       body: {
         'peminjaman_id': peminjaman['id'].toString(),
       },
@@ -55,11 +60,14 @@ class DetailPeminjamanPage extends StatelessWidget {
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       if (responseData['pesan'] == 'Sukses') {
-        final snackBar = SnackBar(content: Text('Peminjaman berhasil dihapus!'));
+        final snackBar =
+            SnackBar(content: Text('Peminjaman berhasil dihapus!'));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         Navigator.of(context).pop();
       } else {
-        final snackBar = SnackBar(content: Text('Gagal menghapus peminjaman: ${responseData['error']}'));
+        final snackBar = SnackBar(
+            content:
+                Text('Gagal menghapus peminjaman: ${responseData['error']}'));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } else {
@@ -84,17 +92,28 @@ class DetailPeminjamanPage extends StatelessWidget {
             children: [
               Text(
                 'Peminjaman Detail',
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               _buildDetailItem('Nama Peminjam:', 'Roila Rachipan'),
               _buildDetailItem('NIM:', '6701220000'),
-              _buildDetailItem('Kategori Peminjaman:', peminjaman['kategori'] ?? 'Tidak ada kategori'),
-              _buildDetailItem('Detail Peminjaman:', peminjaman['detail_peminjaman'] ?? 'Tidak ada detail'),
-              _buildDetailItem('Tanggal Peminjaman:', peminjaman['tanggal_peminjaman'] ?? 'Tidak ada tanggal peminjaman'),
-              _buildDetailItem('Tanggal Pengembalian:', peminjaman['tanggal_pengembalian'] ?? 'Tidak ada tanggal pengembalian'),
-              _buildDetailItem('Keperluan:', peminjaman['keperluan'] ?? 'Tidak ada keperluan'),
-              _buildDetailItem('Status Peminjaman:', peminjaman['status_peminjaman'] ?? 'Tidak ada status'),
+              _buildDetailItem('Kategori Peminjaman:',
+                  peminjaman['kategori'] ?? 'Tidak ada kategori'),
+              _buildDetailItem('Detail Peminjaman:',
+                  peminjaman['detail_peminjaman'] ?? 'Tidak ada detail'),
+              _buildDetailItem(
+                  'Tanggal Peminjaman:',
+                  peminjaman['tanggal_peminjaman'] ??
+                      'Tidak ada tanggal peminjaman'),
+              _buildDetailItem(
+                  'Tanggal Pengembalian:',
+                  peminjaman['tanggal_pengembalian'] ??
+                      'Tidak ada tanggal pengembalian'),
+              _buildDetailItem('Keperluan:',
+                  peminjaman['keperluan'] ?? 'Tidak ada keperluan'),
+              _buildDetailItem('Status Peminjaman:',
+                  peminjaman['status_peminjaman'] ?? 'Tidak ada status'),
               const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -134,7 +153,8 @@ class DetailPeminjamanPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text('Hapus Peminjaman', style: TextStyle(fontSize: 16)),
+                  child: const Text('Hapus Peminjaman',
+                      style: TextStyle(fontSize: 16)),
                 ),
               ),
             ],

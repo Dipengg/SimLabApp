@@ -25,7 +25,7 @@ class _KelolaPeminjamanPageState extends State<KelolaPeminjamanPage> {
   }
 
   Future<void> _fetchData() async {
-    final response = await http.get(Uri.parse('http://172.20.10.5/API_PEMINJAMAN/read_peminjaman.php'));
+    final response = await http.get(Uri.parse('http://172.20.10.5/API_SIMLAB/Peminjaman/read_peminjaman.php'));
 
     if (response.statusCode == 200) {
       setState(() {
@@ -52,7 +52,7 @@ class _KelolaPeminjamanPageState extends State<KelolaPeminjamanPage> {
 
   void _editStatus(int peminjamanId, String status) async {
     final response = await http.post(
-      Uri.parse('http://172.20.10.5/API_PEMINJAMAN/update_status_peminjaman.php'),
+      Uri.parse('http://172.20.10.5/API-SIMLAB/Peminjaman/update_status_peminjaman.php'),
       body: {
         'peminjaman_id': peminjamanId.toString(),
         'status_peminjaman': status,
@@ -71,7 +71,7 @@ class _KelolaPeminjamanPageState extends State<KelolaPeminjamanPage> {
 
   void _deletePeminjaman(int peminjamanId) async {
     final response = await http.post(
-      Uri.parse('http://172.20.10.5/API_PEMINJAMAN/delete_peminjaman.php'),
+      Uri.parse('http://172.20.10.5/API_SIMLAB/Peminjaman/delete_peminjaman.php'),
       body: {
         'peminjaman_id': peminjamanId.toString(),
       },

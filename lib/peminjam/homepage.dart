@@ -274,7 +274,7 @@ class HomePageContent extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const FormPeminjamanPage(),
+                    builder: (context) => const FormPeminjamanPage(items: [],),
                   ),
                 );
               }),

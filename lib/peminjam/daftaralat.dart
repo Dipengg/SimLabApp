@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:peminjaman_lab/admin/formulir_alat.dart';
 import 'package:peminjaman_lab/peminjam/detailalat.dart';
 import 'package:peminjaman_lab/peminjam/cart.dart';
 
@@ -10,23 +13,36 @@ class DaftarAlatPage extends StatefulWidget {
 }
 
 class _DaftarAlatPageState extends State<DaftarAlatPage> {
-  final List<Map<String, String>> tools = [
-    {'title': 'Proyektor', 'image': 'images/proyektor.jpg', 'status': 'available'},
-    {'title': 'Keyboard', 'image': 'images/keyboard.jpg', 'status': 'low'},
-    {'title': 'Power Supply', 'image': 'images/power_supply.jpg', 'status': 'available'},
-    {'title': 'RAM', 'image': 'images/RAM.jpg', 'status': 'available'},
-    {'title': 'Kabel HDMI', 'image': 'images/kabel_hdmi.jpg', 'status': 'not available'},
-    {'title': 'Kabel Jack', 'image': 'images/kabel_jack.jpg', 'status': 'not available'},
-  ];
-
-  List<Map<String, String>> _filteredTools = [];
+  List<Map<String, dynamic>> tools = [];
+  List<Map<String, dynamic>> _filteredTools = [];
   final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _filteredTools = tools;
+    _fetchTools();
     _searchController.addListener(_filterTools);
+  }
+
+  Future<void> _fetchTools() async {
+    final response = await http.get(Uri.parse('http://172.20.10.5/API_SIMLAB/Alat/read_alat.php'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      setState(() {
+        tools = data.map((item) => {
+          'title': item['nama_alat'],
+          'image': 'path/to/image.jpg', // Replace with actual image path
+          'status': item['status'].toString(),
+          'jumlah': item['jumlah'].toString(),
+          'kondisi': item['kondisi'],
+        }).toList();
+        _filteredTools = tools;
+      });
+    } else {
+      // Handle error
+      print('Failed to fetch data');
+    }
   }
 
   @override
@@ -41,6 +57,13 @@ class _DaftarAlatPageState extends State<DaftarAlatPage> {
       _filteredTools = tools.where((tool) {
         return tool['title']!.toLowerCase().contains(_searchController.text.toLowerCase());
       }).toList();
+    });
+  }
+
+  void _addNewTool(Map<String, dynamic> tool) {
+    setState(() {
+      tools.add(tool);
+      _filterTools();
     });
   }
 
@@ -93,7 +116,7 @@ class _DaftarAlatPageState extends State<DaftarAlatPage> {
                 'Daftar Alat',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-                          ),
+            ),
           ),
           Expanded(
             child: _filteredTools.isEmpty
@@ -174,6 +197,23 @@ class _DaftarAlatPageState extends State<DaftarAlatPage> {
                   ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FormAlatPage(
+                onSubmit: (Map<String, dynamic> newAlat) {
+                  _addNewTool(newAlat);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
